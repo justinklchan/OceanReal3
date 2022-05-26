@@ -4,7 +4,7 @@ android {
     compileSdkVersion 31
     defaultConfig {
         multiDexEnabled true
-        applicationId "com.example.root.ffttest2"
+        applicationId "com.example.root.ffttest3"
         minSdkVersion 15
         targetSdkVersion 31
         buildToolsVersion "29.0.0"
