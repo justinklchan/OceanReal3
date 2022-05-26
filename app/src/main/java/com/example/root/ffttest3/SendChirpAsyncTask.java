@@ -229,7 +229,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
 
             if (Constants.SEND_DATA) {
                 appendToLog(Constants.SignalType.Data.toString());
-                if (valid_bins[0] != -1) {
+                if (valid_bins.length >= 1 && valid_bins[0] != -1) {
                     sendData(valid_bins, m_attempt);
                 } else {
                     if (Constants.Ns==960) {
