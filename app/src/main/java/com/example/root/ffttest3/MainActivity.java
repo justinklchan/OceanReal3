@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Constants.setup(this);
 //        double[] out=ChirpGen.preamble_d();
 //        testme();
-//        Tests.feedback_test();
+        Tests.feedback_test2();
 //        Tests.corr_test();
 //        Tests.test_decode();
 //        Tests.naiser_test();

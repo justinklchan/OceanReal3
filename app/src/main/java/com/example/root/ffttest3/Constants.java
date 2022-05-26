@@ -98,7 +98,7 @@ public class Constants {
     public static int XcorrAmpDiff = 10;
     public static int xcorr_method=2;
 
-    public static int FEEDBACK_SNR_THRESH = 13;
+    public static int FEEDBACK_SNR_THRESH = 11;
     public static int CheckSymSNRThresh = 5;
 //    public static int FEEDBACK_SNR_THRESH = 5;
 

@@ -354,8 +354,8 @@ public class FeedbackSignal {
 
             double signal = smooth_sig[i];
 //            double noise = smooth_noise[freq / freq_spacing];
-            double[] noise1 = Utils.segment(smooth_sig,i-5,i-2);
-            double[] noise2 = Utils.segment(smooth_sig,i+2,i+5);
+            double[] noise1 = Utils.segment(smooth_sig,i-4,i-1);
+            double[] noise2 = Utils.segment(smooth_sig,i+1,i+4);
 
             double val=0;
             for(Double d : noise1) {
@@ -367,7 +367,7 @@ public class FeedbackSignal {
             double noise = val / (noise1.length+noise2.length);
 
             double snr = signal-noise;
-            Log.e("feedback",freq+","+(int)snr+","+(int)signal+","+(int)noise);
+            Log.e("feedback",freq+","+(int)snr+","+(int)signal+","+(int)noise+","+(snr >= Constants.FEEDBACK_SNR_THRESH));
             double prom = getProm(smooth_sig,i,i-2,i+2);
 //            double gammaVal = gammaValue(feedback, idx);
 //            if (Constants.fs%freq == 0 && gammaVal < Constants.GammaThresh) {

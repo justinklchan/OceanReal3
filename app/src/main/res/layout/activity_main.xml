@@ -575,7 +575,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:visibility="gone"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNumber25" />
@@ -602,7 +601,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="feedback thresh"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/editTextNumber26"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editTextNumber26" />
