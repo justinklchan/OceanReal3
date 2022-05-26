@@ -250,14 +250,17 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                 // wait for a bit so that they both start at similar times
 
                 try {
-                    if (Constants.Ns==960||Constants.Ns==1920) {
+                    if (Constants.Ns==960) {
                         Thread.sleep(2500);
+                    }
+                    else if (Constants.Ns==1920) {
+                        Thread.sleep(3500);
                     }
                     else if (Constants.Ns==4800) {
                         Thread.sleep(7000);
                     }
                     else if (Constants.Ns==9600) {
-                        Thread.sleep(8000);
+                        Thread.sleep(13000);
                     }
                 }
                 catch(Exception e){

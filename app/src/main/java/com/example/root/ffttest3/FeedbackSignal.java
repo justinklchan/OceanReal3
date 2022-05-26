@@ -67,7 +67,7 @@ public class FeedbackSignal {
         }
         double[] feedback = Utils.segment(rec, rec_start-1, rec_end-1);
 
-        int[] freqs = parse_signal(preamble_rx, feedback);
+        int[] freqs = parse_signal(preamble_rx, feedback,m_attempt);
         if (freqs.length == 2 && freqs[0] != -1) {
             FileOperations.writetofile(MainActivity.av, freqs,
                     Utils.genName(Constants.SignalType.FeedbackFreqs,m_attempt)+".txt");
@@ -274,7 +274,7 @@ public class FeedbackSignal {
         return txsig;
     }
 
-    public static int[] parse_signal(double[] preamble, double[] feedback) {
+    public static int[] parse_signal(double[] preamble, double[] feedback, int m_attempt) {
         Log.e(LOG,"FeedbackSignal_parse_signal");
 //        int freq_spacing = Constants.fs/feedback.length;
 
@@ -286,7 +286,7 @@ public class FeedbackSignal {
 
         double[] preamble_spec_db = Utils.mag2db(preamble_spec);
         double[] feedback_spec_db = Utils.mag2db(feedback_spec);
-        FileOperations.writetofile(MainActivity.av, feedback_spec_db, Utils.genName(Constants.SignalType.FeedbackSpec,0)+".txt");
+        FileOperations.writetofile(MainActivity.av, feedback_spec_db, Utils.genName(Constants.SignalType.FeedbackSpec,m_attempt)+".txt");
 //        double[] noise_db = Utils.mag2db(noise_spec);
 
         int[] freqs= getFreqs(feedback, feedback_spec_db);
