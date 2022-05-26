@@ -700,14 +700,17 @@ public class Utils {
                 timeout = 4;
             }
             else if (Constants.exp_num==5) {
-                if (Constants.Ns==960||Constants.Ns==1920) {
+                if (Constants.Ns==960) {
+                    timeout = 3;
+                }
+                else if (Constants.Ns==1920) {
                     timeout = 4;
                 }
                 else if (Constants.Ns==4800) {
-                    timeout=12;
+                    timeout=7;
                 }
                 else if (Constants.Ns==9600) {
-                    timeout=12;
+                    timeout=13;
                 }
             }
         }

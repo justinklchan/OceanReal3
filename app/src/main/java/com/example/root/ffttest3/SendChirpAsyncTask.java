@@ -364,7 +364,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
 //            FileOperations.writetofile(MainActivity.av, Utils.trim(Arrays.toString(bits)),
 //                    Utils.genName(Constants.SignalType.BitsFull_1000_1500, m_attempt)+".txt");
         }
-
+        Log.e("out","sending "+txsig.length);
         Constants.sp1 = new AudioSpeaker(MainActivity.av, txsig, Constants.fs, 0, txsig.length, false);
 //        Constants.sp1.write(txsig);
         Constants.sp1.play(Constants.volume);
