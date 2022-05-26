@@ -233,6 +233,7 @@ public class FeedbackSignal {
 
         for (int freq = 0; freq < freqs.length; freq++) {
             int ff = freqs[freq];
+//            int ff = 1720;
 //            int ff = 0;
 //            if (freq==0) {
 //                ff=1720;
@@ -285,6 +286,7 @@ public class FeedbackSignal {
 
         double[] preamble_spec_db = Utils.mag2db(preamble_spec);
         double[] feedback_spec_db = Utils.mag2db(feedback_spec);
+        FileOperations.writetofile(MainActivity.av, feedback_spec_db, Utils.genName(Constants.SignalType.FeedbackSpec,0)+".txt");
 //        double[] noise_db = Utils.mag2db(noise_spec);
 
         int[] freqs= getFreqs(feedback, feedback_spec_db);

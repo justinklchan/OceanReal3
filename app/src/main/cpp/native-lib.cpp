@@ -5,7 +5,7 @@
 
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
-Java_com_example_root_ffttest2_Utils_fftnative_1double(JNIEnv *env, jobject thiz, jdoubleArray data,
+Java_com_example_root_ffttest3_Utils_fftnative_1double(JNIEnv *env, jobject thiz, jdoubleArray data,
                                                          jint N) {
     fftw_complex *in , *out;
     fftw_plan p;
@@ -51,7 +51,7 @@ Java_com_example_root_ffttest2_Utils_fftnative_1double(JNIEnv *env, jobject thiz
 
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
-Java_com_example_root_ffttest2_Utils_fftnative_1short(JNIEnv *env, jobject thiz, jshortArray data,
+Java_com_example_root_ffttest3_Utils_fftnative_1short(JNIEnv *env, jobject thiz, jshortArray data,
                                                         jint N) {
     fftw_complex *in , *out;
     fftw_plan p;
@@ -97,7 +97,7 @@ Java_com_example_root_ffttest2_Utils_fftnative_1short(JNIEnv *env, jobject thiz,
 
 extern "C"
 JNIEXPORT jobjectArray JNICALL
-Java_com_example_root_ffttest2_Utils_fftcomplexinoutnative_1double(JNIEnv *env, jobject thiz,
+Java_com_example_root_ffttest3_Utils_fftcomplexinoutnative_1double(JNIEnv *env, jobject thiz,
                                                                  jobjectArray data, jint N) {
 
     jdoubleArray realar1 = (jdoubleArray) env->GetObjectArrayElement(data, 0);
@@ -155,7 +155,7 @@ Java_com_example_root_ffttest2_Utils_fftcomplexinoutnative_1double(JNIEnv *env, 
 
 extern "C"
 JNIEXPORT jobjectArray JNICALL
-Java_com_example_root_ffttest2_Utils_fftcomplexoutnative_1double(JNIEnv *env, jobject thiz,
+Java_com_example_root_ffttest3_Utils_fftcomplexoutnative_1double(JNIEnv *env, jobject thiz,
                                                                    jdoubleArray data, jint N) {
 
     fftw_complex *in , *out;
@@ -206,7 +206,7 @@ Java_com_example_root_ffttest2_Utils_fftcomplexoutnative_1double(JNIEnv *env, jo
 
 extern "C"
 JNIEXPORT jobjectArray JNICALL
-Java_com_example_root_ffttest2_Utils_fftcomplexoutnative_1short(JNIEnv *env, jobject thiz,
+Java_com_example_root_ffttest3_Utils_fftcomplexoutnative_1short(JNIEnv *env, jobject thiz,
                                                                   jshortArray data, jint N) {
 
     fftw_complex *in , *out;
@@ -257,7 +257,7 @@ Java_com_example_root_ffttest2_Utils_fftcomplexoutnative_1short(JNIEnv *env, job
 
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
-Java_com_example_root_ffttest2_Utils_ifftnative(JNIEnv *env, jobject thiz,
+Java_com_example_root_ffttest3_Utils_ifftnative(JNIEnv *env, jobject thiz,
                                                   jobjectArray data) {
     jdoubleArray real = (jdoubleArray) env->GetObjectArrayElement(data, 0);
     jdoubleArray imag = (jdoubleArray) env->GetObjectArrayElement(data, 1);
@@ -307,7 +307,7 @@ Java_com_example_root_ffttest2_Utils_ifftnative(JNIEnv *env, jobject thiz,
 
 extern "C"
 JNIEXPORT jobjectArray JNICALL
-Java_com_example_root_ffttest2_Utils_ifftnative2(JNIEnv *env, jobject thiz,
+Java_com_example_root_ffttest3_Utils_ifftnative2(JNIEnv *env, jobject thiz,
                                                    jobjectArray data) {
     jdoubleArray real = (jdoubleArray) env->GetObjectArrayElement(data, 0);
     jdoubleArray imag = (jdoubleArray) env->GetObjectArrayElement(data, 1);
@@ -363,7 +363,7 @@ Java_com_example_root_ffttest2_Utils_ifftnative2(JNIEnv *env, jobject thiz,
     return outarray;
 }
 
-extern "C" JNIEXPORT jobjectArray JNICALL Java_com_example_root_ffttest2_Utils_timesnative(
+extern "C" JNIEXPORT jobjectArray JNICALL Java_com_example_root_ffttest3_Utils_timesnative(
         JNIEnv *env,
         jclass,
         jobjectArray c1,
@@ -403,7 +403,7 @@ extern "C" JNIEXPORT jobjectArray JNICALL Java_com_example_root_ffttest2_Utils_t
     return outarray;
 }
 
-extern "C" JNIEXPORT jobjectArray JNICALL Java_com_example_root_ffttest2_Utils_dividenative(
+extern "C" JNIEXPORT jobjectArray JNICALL Java_com_example_root_ffttest3_Utils_dividenative(
         JNIEnv *env,
         jclass,
         jobjectArray c1,
@@ -447,7 +447,7 @@ extern "C" JNIEXPORT jobjectArray JNICALL Java_com_example_root_ffttest2_Utils_d
     return outarray;
 }
 
-extern "C" JNIEXPORT void JNICALL Java_com_example_root_ffttest2_Utils_conjnative(
+extern "C" JNIEXPORT void JNICALL Java_com_example_root_ffttest3_Utils_conjnative(
         JNIEnv *env,
         jclass,
         jobjectArray data) {
@@ -461,7 +461,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_root_ffttest2_Utils_conjnativ
     }
 }
 
-extern "C" JNIEXPORT jdoubleArray JNICALL Java_com_example_root_ffttest2_Utils_fir(
+extern "C" JNIEXPORT jdoubleArray JNICALL Java_com_example_root_ffttest3_Utils_fir(
         JNIEnv *env,
         jclass,
         jdoubleArray data,
@@ -520,7 +520,7 @@ extern "C" JNIEXPORT jdoubleArray JNICALL Java_com_example_root_ffttest2_Utils_f
     return out;
 }
 
-extern "C" JNIEXPORT jdoubleArray JNICALL Java_com_example_root_ffttest2_Utils_bandpass(
+extern "C" JNIEXPORT jdoubleArray JNICALL Java_com_example_root_ffttest3_Utils_bandpass(
         JNIEnv *env,
         jclass,
         jdoubleArray data) {

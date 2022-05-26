@@ -575,9 +575,9 @@ public class Utils {
             Log.e("cands_stat",cands[j]+","+idx+","+legit2+","+sigType);
             if (legit2 > 0) {
                 boolean legit = Utils.isLegit(sig,sigType,preamble,idx);
-                if (legit || !Constants.CHECK_SYM) {
+//                if (legit || !Constants.CHECK_SYM) {
                     return new double[]{corr[cands[j]], idx};
-                }
+//                }
             }
         }
         return new double[]{-1,-1};
@@ -682,13 +682,13 @@ public class Utils {
         else if (sigType.equals(Constants.SignalType.Feedback)) {
             MAX_WINDOWS = 1;
             if (Constants.Ns==960||Constants.Ns==1920) {
-                timeout = 2;
+                timeout = 5;
             }
             else if (Constants.Ns==4800) {
-                timeout=3;
+                timeout=10;
             }
             else if (Constants.Ns==9600) {
-                timeout=4;
+                timeout=10;
             }
             len = ChirpSamples+Constants.Ns+ChirpSamples;
         }
@@ -704,10 +704,10 @@ public class Utils {
                     timeout = 4;
                 }
                 else if (Constants.Ns==4800) {
-                    timeout=6;
+                    timeout=12;
                 }
                 else if (Constants.Ns==9600) {
-                    timeout=6;
+                    timeout=12;
                 }
             }
         }

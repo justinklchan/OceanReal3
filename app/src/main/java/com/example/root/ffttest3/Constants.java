@@ -38,6 +38,7 @@ public class Constants {
         ASymCheckSNR,
         ASymCheckFreq,
         Feedback,
+        FeedbackSpec,
         FeedbackFreqs,
         ExactFeedbackFreqs,
         AdaptParams,
@@ -121,7 +122,7 @@ public class Constants {
     static double WaitForDataTime = 0;
 
     static boolean DIFFERENTIAL=true;
-    static float FreAdaptScaleFactor;
+    static float FreAdaptScaleFactor=.65f;
 
     static long StartingTimestamp;
 
