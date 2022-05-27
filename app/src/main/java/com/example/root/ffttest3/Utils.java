@@ -704,10 +704,10 @@ public class Utils {
                     timeout = 3;
                 }
                 else if (Constants.Ns==1920) {
-                    timeout = 4;
+                    timeout = 5;
                 }
                 else if (Constants.Ns==4800) {
-                    timeout=7;
+                    timeout=8;
                 }
                 else if (Constants.Ns==9600) {
                     timeout=13;

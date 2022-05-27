@@ -450,7 +450,8 @@ public class Constants {
     static int preambleEndFreq;
     static int chirpPreambleTime = 100; // milliseconds
     static int preambleTime = 160; // milliseconds
-    static int fbackTime = 100; // milliseconds
+    static int fbackTime = 500; // milliseconds
+    static int fbackinc;
     static boolean DecodeData = false;
     static boolean SEND_DATA = true;
     static int SendPad = 100;
@@ -510,6 +511,15 @@ public class Constants {
 
     static double[][] preamble_spec = null;
     public static void setup(Context cxt) {
+        if (Constants.fbackTime==100) {
+            Constants.fbackinc = 10;
+        }
+        else if (Constants.fbackTime==200) {
+            Constants.fbackinc=10;
+        }
+        else {
+            Constants.fbackinc=10;
+        }
 //        double[] preamble_spec1=null;
 //        double[] preamble_spec2=null;
 

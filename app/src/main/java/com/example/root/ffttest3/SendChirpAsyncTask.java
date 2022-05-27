@@ -229,9 +229,9 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
 
             if (Constants.SEND_DATA) {
                 appendToLog(Constants.SignalType.Data.toString());
-                if (valid_bins.length >= 1 && valid_bins[0] != -1) {
-                    sendData(valid_bins, m_attempt);
-                } else {
+//                if (valid_bins.length >= 1 && valid_bins[0] != -1) {
+//                    sendData(valid_bins, m_attempt);
+//                } else {
                     if (Constants.Ns==960) {
                         sendData(new int[]{20}, m_attempt);
                     }
@@ -244,7 +244,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                     else if (Constants.Ns==9600) {
                         sendData(new int[]{200}, m_attempt);
                     }
-                }
+//                }
 
                 // bob's window for receiving data is longer than time for alice to send data
                 // wait for a bit so that they both start at similar times
@@ -254,13 +254,13 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                         Thread.sleep(2500);
                     }
                     else if (Constants.Ns==1920) {
-                        Thread.sleep(3500);
+                        Thread.sleep(2500);
                     }
                     else if (Constants.Ns==4800) {
-                        Thread.sleep(7000);
+                        Thread.sleep(2500);
                     }
                     else if (Constants.Ns==9600) {
-                        Thread.sleep(13000);
+                        Thread.sleep(3000);
                     }
                 }
                 catch(Exception e){

@@ -223,8 +223,8 @@ public class FeedbackSignal {
 //            fend/=2;
 //        }
 
-        fbegin=Math.round(fbegin/10)*10;
-        fend=Math.round(fend/10)*10;
+        fbegin=Math.round(fbegin/Constants.fbackinc)*Constants.fbackinc;
+        fend=Math.round(fend/Constants.fbackinc)*Constants.fbackinc;
         int freqs[] = new int[]{fbegin,fend};
 
         int fbackLen=(int)((Constants.fbackTime/1000.0)*Constants.fs);
@@ -342,10 +342,12 @@ public class FeedbackSignal {
         double[] smooth_sig = feedback_spec_db;
 
         int feedbackFreqSpacing = Constants.fs/feedback_spec_db.length;
+//        int feedbackFreqSpacing = 10;
         int startIdx = Constants.f_range[0]/feedbackFreqSpacing;
         int endIdx = Constants.f_range[1]/feedbackFreqSpacing;
+        int increment = 10/feedbackFreqSpacing;
 
-        for (int i = startIdx; i < endIdx; i++) {
+        for (int i = startIdx; i < endIdx; i+=increment) {
             int freq = i*feedbackFreqSpacing;
             // -1 for smoothing
 //            int idx=(freq / freq_spacing);
@@ -382,8 +384,10 @@ public class FeedbackSignal {
         Collections.sort(bins, new Comparator<Bin>() {
             @Override
             public int compare(Bin c1, Bin c2) {
-                double met1 = c1.prom+c1.snr;
-                double met2 = c2.prom+c2.snr;
+//                double met1 = c1.prom+c1.snr;
+//                double met2 = c2.prom+c2.snr;
+                double met1 = c1.snr;
+                double met2 = c2.snr;
                 if (met1 > met2) {return 1;}
                 else if (met1 == met2) {return 0;}
                 else {return -1;}
@@ -394,22 +398,25 @@ public class FeedbackSignal {
             Log.e("feedback",bin.freq+","+bin.snr);
         }
 
-        LinkedList<Integer> remove=new LinkedList<>();
-        for (int i = bins.size()-1; i >= 1; i--) {
-            if (Math.abs(bins.get(i).freq - bins.get(i-1).freq)==feedbackFreqSpacing) {
-                if (bins.get(i).snr > bins.get(i-1).snr) {
-                    remove.add(i-1);
-                }
-                else {
-                    remove.add(i);
+        LinkedList<Integer> remove;
+        do {
+            remove=new LinkedList<>();
+            for (int i = bins.size() - 1; i >= 1; i--) {
+                if (Math.abs(bins.get(i).freq - bins.get(i - 1).freq) == feedbackFreqSpacing) {
+                    if (bins.get(i).snr > bins.get(i - 1).snr) {
+                        remove.add(i - 1);
+                    } else {
+                        remove.add(i);
+                    }
                 }
             }
+            Log.e("feedback", "binsize " + bins.size());
+            for (Integer i : remove) {
+                Log.e("feedback", "remove " + i);
+                bins.remove(bins.get(i));
+            }
         }
-        Log.e("feedback","binsize "+bins.size());
-        for (Integer i : remove) {
-            Log.e("feedback","remove "+i);
-            bins.remove(bins.get(i));
-        }
+        while(remove.size()>0);
         Log.e("feedback","binsize "+bins.size());
 
         if (bins.size() >= 2) {
