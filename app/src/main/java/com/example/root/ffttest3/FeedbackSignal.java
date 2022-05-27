@@ -354,8 +354,8 @@ public class FeedbackSignal {
 
             double signal = smooth_sig[i];
 //            double noise = smooth_noise[freq / freq_spacing];
-            double[] noise1 = Utils.segment(smooth_sig,i-4,i-1);
-            double[] noise2 = Utils.segment(smooth_sig,i+1,i+4);
+            double[] noise1 = Utils.segment(smooth_sig,i-25,i-1);
+            double[] noise2 = Utils.segment(smooth_sig,i+1,i+25);
 
             double val=0;
             for(Double d : noise1) {
@@ -398,10 +398,10 @@ public class FeedbackSignal {
         for (int i = bins.size()-1; i >= 1; i--) {
             if (Math.abs(bins.get(i).freq - bins.get(i-1).freq)==feedbackFreqSpacing) {
                 if (bins.get(i).snr > bins.get(i-1).snr) {
-                    remove.add(i);
+                    remove.add(i-1);
                 }
                 else {
-                    remove.add(i-1);
+                    remove.add(i);
                 }
             }
         }

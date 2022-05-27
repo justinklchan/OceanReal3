@@ -100,7 +100,7 @@ public class Tests {
     }
 
     public static void feedback_test2() {
-        double[] fback = FileOperations.readrawasset(MainActivity.av, R.raw.spec2,1);
+        double[] fback = FileOperations.readrawasset(MainActivity.av, R.raw.spec0,1);
 
         int[] out = FeedbackSignal.getFreqs(null,fback);
         Log.e("out",out[0]+","+out[1]);
