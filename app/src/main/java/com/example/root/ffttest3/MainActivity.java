@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Constants.setup(this);
 //        double[] out=ChirpGen.preamble_d();
 //        testme();
-        Tests.feedback_test2();
+//        Utils.convtest();
 //        Tests.corr_test();
 //        Tests.test_decode();
 //        Tests.naiser_test();
@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Constants.sw10 = (Switch) findViewById(R.id.switch10);
         Constants.sw11 = (Switch) findViewById(R.id.switch11);
         Constants.sw12 = (Switch) findViewById(R.id.switch12);
+        Constants.sw13 = (Switch) findViewById(R.id.switch13);
         Constants.spinner = (Spinner) findViewById(R.id.spinner);
         Constants.spinner2 = (Spinner) findViewById(R.id.spinner2);
         Constants.spinner3 = (Spinner) findViewById(R.id.spinner3);

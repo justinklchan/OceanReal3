@@ -98,13 +98,13 @@ public class Constants {
     public static int XcorrAmpDiff = 10;
     public static int xcorr_method=2;
 
-    public static int FEEDBACK_SNR_THRESH = 11;
+    public static int FEEDBACK_SNR_THRESH = 13;
     public static int CheckSymSNRThresh = 5;
 //    public static int FEEDBACK_SNR_THRESH = 5;
 
     public static int SNR_THRESH1 = 5;
     public static int SNR_THRESH2 = 8;
-    public static int SNR_THRESH2_2 = 4;
+    public static int SNR_THRESH2_2 = 8;
 
     static int SyncLag = 2;
     static int WaitForFeedbackTimeDefault = 1;
@@ -113,7 +113,7 @@ public class Constants {
     static int WaitForPerTimeDefault = 4;
 
     static int RecorderStepSize = 24000;
-    static float NaiserThresh = .5f;
+    static float NaiserThresh = .4f;
     static double WaitForFeedbackTime;
     static double WaitForSoundingTime;
     static double WaitForBerTime;
@@ -122,7 +122,7 @@ public class Constants {
     static double WaitForDataTime = 0;
 
     static boolean DIFFERENTIAL=true;
-    static float FreAdaptScaleFactor=.65f;
+    static float FreAdaptScaleFactor=.5f;
 
     static long StartingTimestamp;
 
@@ -143,7 +143,7 @@ public class Constants {
     public static EditText et1,et2,et3,et4,et5,et6,et7,et8,et9,et10,et11,et12,et13,et14,et15,et17,et18,et25,et26,et27;
     public static SendChirpAsyncTask task;
     public static User user;
-    public static Switch sw1,sw2,sw3,sw4,sw5,sw6,sw7,sw8,sw9,sw10,sw11,sw12;
+    public static Switch sw1,sw2,sw3,sw4,sw5,sw6,sw7,sw8,sw9,sw10,sw11,sw12,sw13;
     public static EqMethod eqMethod = EqMethod.Freq;
     public static String LOG="log";
     public static int Ns=960;
@@ -464,6 +464,7 @@ public class Constants {
     static boolean NAISER = true;
     static boolean DATA_NAISER = true;
     static boolean CHECK_SYM = false;
+    static boolean onebin = false;
 
     public static void toggleUI(boolean val) {
         Constants.sw1.setEnabled(val);
@@ -478,6 +479,7 @@ public class Constants {
         Constants.sw10.setEnabled(val);
         Constants.sw11.setEnabled(val);
         Constants.sw12.setEnabled(val);
+        Constants.sw13.setEnabled(val);
         Constants.startButton.setEnabled(val);
         Constants.clearButton.setEnabled(val);
 //        Constants.stopButton.setEnabled(!val);
@@ -586,6 +588,9 @@ public class Constants {
 
         Constants.DATA_NAISER=prefs.getBoolean("data_naiser", Constants.DATA_NAISER);
         sw12.setChecked(Constants.DATA_NAISER);
+
+        Constants.onebin=prefs.getBoolean("onebin", Constants.onebin);
+        sw13.setChecked(Constants.onebin);
 
         updateNaiser(MainActivity.av);
 

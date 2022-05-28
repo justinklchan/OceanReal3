@@ -289,8 +289,8 @@ public class ChannelEstimate {
 //        freqs[0]=Math.round(freqs[0]/10)*10;
 //        freqs[1]=Math.round(freqs[1]/10)*10;
 
-        Utils.log(Arrays.toString(Utils.convert(snrs)));
-        Utils.log(Arrays.toString(freqs));
+//        Utils.log(Arrays.toString(Utils.convert(snrs)));
+//        Utils.log(Arrays.toString(freqs));
 
         FileOperations.writetofile(MainActivity.av, Utils.trim(Arrays.toString(snrs)),
                 Utils.genName(Constants.SignalType.SNRs, m_attempt) + ".txt");

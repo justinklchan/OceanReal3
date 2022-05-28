@@ -264,10 +264,17 @@ public class FeedbackSignal {
         MainActivity.av.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Display.plotSpectrum(Constants.gview3, spec_fback_db, true, MainActivity.av.getResources().getColor(R.color.purple_500),
-                        "Tx feedback "+finalFbegin+","+finalFend);
-                Display.plotVerticalLine(Constants.gview3, Constants.f_seq.get(Constants.nbin1_chanest -2));
-                Display.plotVerticalLine(Constants.gview3, Constants.f_seq.get(Constants.nbin2_chanest +2));
+                if (Constants.Ns==960||Constants.Ns==1920||Constants.Ns==4800) {
+                    Display.plotSpectrum(Constants.gview3, spec_fback_db, true, MainActivity.av.getResources().getColor(R.color.purple_500),
+                            "Tx feedback " + finalFbegin + "," + finalFend);
+                    Display.plotVerticalLine(Constants.gview3, Constants.f_seq.get(Constants.nbin1_chanest - 2));
+                    Display.plotVerticalLine(Constants.gview3, Constants.f_seq.get(Constants.nbin2_chanest + 2));
+                }
+                else {
+                    Constants.gview3.setTitle("Tx feedback " + finalFbegin + "," + finalFend);
+                    Display.plotVerticalLine(Constants.gview3, Constants.f_seq.get(Constants.nbin1_chanest - 2));
+                    Display.plotVerticalLine(Constants.gview3, Constants.f_seq.get(Constants.nbin2_chanest + 2));
+                }
             }
         });
 

@@ -685,10 +685,10 @@ public class Utils {
                 timeout = 5;
             }
             else if (Constants.Ns==4800) {
-                timeout=10;
+                timeout=7;
             }
             else if (Constants.Ns==9600) {
-                timeout=10;
+                timeout=7;
             }
             len = ChirpSamples+Constants.Ns+ChirpSamples;
         }
@@ -701,16 +701,16 @@ public class Utils {
             }
             else if (Constants.exp_num==5) {
                 if (Constants.Ns==960) {
-                    timeout = 3;
-                }
-                else if (Constants.Ns==1920) {
                     timeout = 5;
                 }
+                else if (Constants.Ns==1920) {
+                    timeout = 6;
+                }
                 else if (Constants.Ns==4800) {
-                    timeout=8;
+                    timeout=9;
                 }
                 else if (Constants.Ns==9600) {
-                    timeout=13;
+                    timeout=14;
                 }
             }
         }
@@ -1120,6 +1120,7 @@ public class Utils {
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
+    public static native void convtest();
     public static native double[] fftnative_double(double data[], int N);
     public static native double[] fftnative_short(short data[], int N);
     public static native double[][] fftcomplexinoutnative_double(double data[][], int N);

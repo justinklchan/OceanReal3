@@ -23,7 +23,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
         Utils.log("---------------------------------------");
         Log.e(LOG, "preexec ");
         Constants.toggleUI(false);
-
+        Constants.debugPane.setText("");
         Constants.gview.removeAllSeries();
         Constants.gview2.removeAllSeries();
         Constants.gview3.removeAllSeries();
@@ -226,12 +226,12 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
             for (int i = 0; i <valid_bins.length; i++) {
                 Log.e("fifo",valid_bins[i]+"");
             }
-
+            sleep(1000);
             if (Constants.SEND_DATA) {
                 appendToLog(Constants.SignalType.Data.toString());
-//                if (valid_bins.length >= 1 && valid_bins[0] != -1) {
-//                    sendData(valid_bins, m_attempt);
-//                } else {
+                if (valid_bins.length >= 1 && valid_bins[0] != -1&&!Constants.onebin) {
+                    sendData(valid_bins, m_attempt);
+                } else {
                     if (Constants.Ns==960) {
                         sendData(new int[]{20}, m_attempt);
                     }
@@ -244,23 +244,23 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                     else if (Constants.Ns==9600) {
                         sendData(new int[]{200}, m_attempt);
                     }
-//                }
+                }
 
                 // bob's window for receiving data is longer than time for alice to send data
                 // wait for a bit so that they both start at similar times
 
                 try {
                     if (Constants.Ns==960) {
-                        Thread.sleep(2500);
+                        Thread.sleep(1000);
                     }
                     else if (Constants.Ns==1920) {
-                        Thread.sleep(2500);
+                        Thread.sleep(1000);
                     }
                     else if (Constants.Ns==4800) {
-                        Thread.sleep(2500);
+                        Thread.sleep(1000);
                     }
                     else if (Constants.Ns==9600) {
-                        Thread.sleep(3000);
+                        Thread.sleep(1000);
                     }
                 }
                 catch(Exception e){
@@ -299,7 +299,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
 
             short[] feedback = FeedbackSignal.multi_freq_signal(valid_bins[0], valid_bins[valid_bins.length - 1],
                     Constants.fbackTime, true, m_attempt);
-
+            sleep(500);
             Constants.sp1 = new AudioSpeaker(av, feedback, Constants.fs, 0, feedback.length, false);
             appendToLog(Constants.SignalType.Feedback.toString());
             Constants.sp1.play(Constants.volume);
