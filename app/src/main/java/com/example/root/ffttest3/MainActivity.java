@@ -464,6 +464,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
+        Constants.sw13.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(av).edit();
+                editor.putBoolean("onebin", isChecked);
+                Constants.onebin  = isChecked;
+                editor.commit();
+            }
+        });
+
         Constants.et1.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
