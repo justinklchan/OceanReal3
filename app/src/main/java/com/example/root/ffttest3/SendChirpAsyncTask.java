@@ -226,7 +226,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
             for (int i = 0; i <valid_bins.length; i++) {
                 Log.e("fifo",valid_bins[i]+"");
             }
-            sleep(1000);
+//            sleep(1000);
             if (Constants.SEND_DATA) {
                 appendToLog(Constants.SignalType.Data.toString());
                 if (valid_bins.length >= 1 && valid_bins[0] != -1&&!Constants.onebin) {
@@ -251,7 +251,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
 
                 try {
                     if (Constants.Ns==960) {
-                        Thread.sleep(2000);
+                        Thread.sleep(3000);
                     }
                     else if (Constants.Ns==1920) {
                         Thread.sleep(3000);
@@ -299,7 +299,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
 
             short[] feedback = FeedbackSignal.multi_freq_signal(valid_bins[0], valid_bins[valid_bins.length - 1],
                     Constants.fbackTime, true, m_attempt);
-            sleep(500);
+//            sleep(500);
             Constants.sp1 = new AudioSpeaker(av, feedback, Constants.fs, 0, feedback.length, false);
             appendToLog(Constants.SignalType.Feedback.toString());
             Constants.sp1.play(Constants.volume);
