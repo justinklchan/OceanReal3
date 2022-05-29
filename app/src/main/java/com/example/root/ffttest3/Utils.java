@@ -1120,7 +1120,7 @@ public class Utils {
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
-    public static native void convtest();
+    public static native String convtest(String bits);
     public static native double[] fftnative_double(double data[], int N);
     public static native double[] fftnative_short(short data[], int N);
     public static native double[][] fftcomplexinoutnative_double(double data[][], int N);

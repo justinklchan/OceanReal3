@@ -14,6 +14,9 @@
 #include <limits>
 
 #include <android/log.h>
+
+std::string jstring2string(JNIEnv *env, jstring jStr);
+
 // This class implements both a Viterbi Decoder and a Convolutional Encoder.
 class ViterbiCodec {
 public:
@@ -273,18 +276,37 @@ std::string ViterbiCodec::Decode(const std::string& bits) const {
     return decoded.substr(0, decoded.size() - constraint_ + 1);
 }
 
-//extern "C"
-//JNIEXPORT jstring JNICALL
-//Java_com_example_root_ffttest3_Utils_convtest(JNIEnv *env, jclass clazz, jstring bits) {
-//    std::vector<int> polynomials;
-//    polynomials.push_back(7);
-//    polynomials.push_back(5);
-//
-//    ViterbiCodec codec(3, polynomials);
-//    std::string decoded = codec.Encode(bits);
-//
-//    return decoded.c_str();
-//}
+std::string jstring2string(JNIEnv *env, jstring jStr) {
+    if (!jStr)
+        return "";
+
+    const jclass stringClass = env->GetObjectClass(jStr);
+    const jmethodID getBytes = env->GetMethodID(stringClass, "getBytes", "(Ljava/lang/String;)[B");
+    const jbyteArray stringJbytes = (jbyteArray) env->CallObjectMethod(jStr, getBytes, env->NewStringUTF("UTF-8"));
+
+    size_t length = (size_t) env->GetArrayLength(stringJbytes);
+    jbyte* pBytes = env->GetByteArrayElements(stringJbytes, NULL);
+
+    std::string ret = std::string((char *)pBytes, length);
+    env->ReleaseByteArrayElements(stringJbytes, pBytes, JNI_ABORT);
+
+    env->DeleteLocalRef(stringJbytes);
+    env->DeleteLocalRef(stringClass);
+    return ret;
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_example_root_ffttest3_Utils_convtest(JNIEnv *env, jclass clazz, jstring bits) {
+    std::vector<int> polynomials;
+    polynomials.push_back(7);
+    polynomials.push_back(5);
+
+    ViterbiCodec codec(16, polynomials);
+    std::string decoded = codec.Encode(jstring2string(env,bits));
+
+    return env->NewStringUTF(decoded.c_str());
+}
 
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
