@@ -492,7 +492,7 @@ public class Constants {
         Constants.et7.setEnabled(val);
         Constants.et8.setEnabled(val);
         Constants.et9.setEnabled(val);
-        Constants.et10.setEnabled(val);
+//        Constants.et10.setEnabled(val);
         Constants.et11.setEnabled(val);
         Constants.et12.setEnabled(val);
         Constants.et13.setEnabled(val);
