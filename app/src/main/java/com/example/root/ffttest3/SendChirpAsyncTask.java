@@ -120,7 +120,6 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
             }
         }
         else if (Constants.exp_num==3||Constants.exp_num==4||Constants.exp_num==5) {
-            Constants.SEND_DATA=true;
             Constants.WaitForDataTime = Constants.WaitForPerTime;
             if (Constants.exp_num == 3) {
                 Constants.AdaptationMethod = 2;
@@ -205,7 +204,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
             double[] feedback_signal = null;
             do {
                 short[] sig = ChirpGen.sounding_signal_s();
-                FileOperations.writetofile(MainActivity.av, sig, Utils.genName(Constants.SignalType.Sounding, m_attempt) + ".txt");
+                FileOperations.writetofile(MainActivity.av, sig, Utils.genName(Constants.   SignalType.Sounding, m_attempt) + ".txt");
 
                 Constants.sp1 = new AudioSpeaker(av, sig, Constants.fs, 0, sig.length, false);
                 appendToLog(Constants.SignalType.Sounding.toString());
@@ -245,16 +244,17 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                         sendData(new int[]{200}, m_attempt);
                     }
                 }
+            }
 
                 // bob's window for receiving data is longer than time for alice to send data
                 // wait for a bit so that they both start at similar times
 
                 try {
                     if (Constants.Ns==960) {
-                        Thread.sleep(3000);
+                        Thread.sleep(5000);
                     }
                     else if (Constants.Ns==1920) {
-                        Thread.sleep(3000);
+                        Thread.sleep(5000);
                     }
                     else if (Constants.Ns==4800) {
                         Thread.sleep(7000);
@@ -266,7 +266,6 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                 catch(Exception e){
                     Log.e("asdf",e.toString());
                 }
-            }
             return 0;
         }
         else if (Constants.user.equals(Constants.User.Bob)) {
@@ -302,7 +301,9 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
 //            sleep(500);
             Constants.sp1 = new AudioSpeaker(av, feedback, Constants.fs, 0, feedback.length, false);
             appendToLog(Constants.SignalType.Feedback.toString());
-            Constants.sp1.play(Constants.volume);
+            if (Constants.SEND_FEEDBACK) {
+                Constants.sp1.play(Constants.volume);
+            }
 
             int stime = (int) ((feedback.length / (double) Constants.fs) * 1000);
             sleep(stime+Constants.SendPad);

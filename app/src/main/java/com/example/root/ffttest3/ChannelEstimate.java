@@ -162,7 +162,7 @@ public class ChannelEstimate {
 
 //        int rx_sym_start = rx_preamble_end + Constants.ChirpGap + 1 + (Constants.Cp * Constants.chanest_symreps);
         int rx_sym_start = rx_preamble_end + Constants.ChirpGap + 1;
-        int rx_sym_end = rx_sym_start + (Constants.Ns * Constants.chanest_symreps) - 1;
+        int rx_sym_end = rx_sym_start + ((Constants.Ns + Constants.Cp)* Constants.chanest_symreps) - 1;
         int rx_sym_len = (rx_sym_end - rx_sym_start) + 1;
 
         if (rx_sym_end - 1 > rec.length || rx_sym_start < 0) {
@@ -173,6 +173,9 @@ public class ChannelEstimate {
         Log.e(LOG, "sym " + rec.length + "," + rx_sym_start + "," + rx_sym_end + "," + rx_sym_len);
         double[] rx_symbols = Utils.segment(rec, rx_sym_start, rx_sym_end);
         rx_symbols = Utils.div(rx_symbols,30000);
+
+        FileOperations.writetofile(MainActivity.av, Utils.trim(Arrays.toString(rx_symbols)),
+                Utils.genName(Constants.SignalType.SNRs, m_attempt) + ".txt");
 
 //        double[] spec_symbol = Utils.fftnative_double(rx_symbols, rx_symbols.length);
 //        double[] spec_symbol_db = Utils.mag2db(Utils.fftnative_double(rx_symbols, rx_symbols.length));
@@ -187,20 +190,44 @@ public class ChannelEstimate {
                 Display.plotVerticalLine(Constants.gview, Constants.f_seq.get(Constants.nbin1_default));
                 Display.plotVerticalLine(Constants.gview, Constants.f_seq.get(Constants.nbin2_default));
                 
-                int cc=0;
-//                for (int i = 0; i < Constants.chanest_symreps; i++) {
-                for (int i = 0; i < 1; i++) {
+                int cc=Constants.Cp;
+                for (int i = 0; i < Constants.chanest_symreps; i++) {
+//                for (int i = 0; i < 1; i++) {
                     double[] seg = Utils.segment(finalRx_symbols, cc, cc + Constants.Ns - 1);
                     double[] spec = Utils.mag2db(Utils.fftnative_double(seg,seg.length));
                     if (i==0) {
                         Display.plotSpectrum(Constants.gview2, spec, true,
-                                MainActivity.av.getResources().getColor(R.color.purple_500), "Symbol");
+                                MainActivity.av.getResources().getColor(R.color.red), "Symbol");
+                    }
+                    else if (i==1) {
+                        Display.plotSpectrum(Constants.gview2, spec, false,
+                                MainActivity.av.getResources().getColor(R.color.orange), "Symbol");
+                    }
+                    else if (i==2) {
+                        Display.plotSpectrum(Constants.gview2, spec, false,
+                                MainActivity.av.getResources().getColor(R.color.yellow), "Symbol");
+                    }
+                    else if (i==3) {
+                        Display.plotSpectrum(Constants.gview2, spec, false,
+                                MainActivity.av.getResources().getColor(R.color.green), "Symbol");
+                    }
+                    else if (i==4) {
+                        Display.plotSpectrum(Constants.gview2, spec, false,
+                                MainActivity.av.getResources().getColor(R.color.blue), "Symbol");
+                    }
+                    else if (i==5) {
+                        Display.plotSpectrum(Constants.gview2, spec, false,
+                                MainActivity.av.getResources().getColor(R.color.purple), "Symbol");
+                    }
+                    else if (i==6) {
+                        Display.plotSpectrum(Constants.gview2, spec, false,
+                                MainActivity.av.getResources().getColor(R.color.black), "Symbol");
                     }
                     else {
                         Display.plotSpectrum(Constants.gview2, spec, false,
                                 MainActivity.av.getResources().getColor(R.color.purple_500), "Symbol");
                     }
-                    cc+=Constants.Ns;
+                    cc+=Constants.Ns+Constants.Cp;
                 }
 
 //                Display.plotHorizontalLine(Constants.gview2, Constants.SNR_THRESH);
@@ -220,7 +247,7 @@ public class ChannelEstimate {
 //            snrs = calculateSNR_null(spec_symbol);
 //            thresh=Constants.SNR_THRESH1;
 //        } else if (Constants.snr_method == 2) {
-            int cc=0;
+            int cc=Constants.Cp;
             double [][][] spec_est = new double[2][Constants.subcarrier_number_default][Constants.chanest_symreps];
             for (int i = 0; i < Constants.chanest_symreps; i++) {
                 double[] seg = Utils.segment(rx_symbols,cc,cc+Constants.Ns-1);
@@ -234,7 +261,7 @@ public class ChannelEstimate {
                     spec_est[1][bin_counter++][i] = imagPart;
                 }
 
-                cc+=Constants.Ns;
+                cc+=Constants.Ns+Constants.Cp;
             }
 //            if (Constants.FLIP_SYMBOL) {
 //                snrs = SNR_freq.calculate_snr2(spec_est, Constants.pn60_syms);

@@ -450,10 +450,11 @@ public class Constants {
     static int preambleEndFreq;
     static int chirpPreambleTime = 100; // milliseconds
     static int preambleTime = 160; // milliseconds
-    static int fbackTime = 500; // milliseconds
+    static int fbackTime = 200; // milliseconds
     static int fbackinc;
     static boolean DecodeData = false;
-    static boolean SEND_DATA = true;
+    static boolean SEND_DATA = false;
+    static boolean SEND_FEEDBACK = true;
     static int SendPad = 100;
     static int data_symreps = 1;
     static int chanest_symreps = 7;
@@ -574,8 +575,8 @@ public class Constants {
         Constants.feedbackPreamble=prefs.getBoolean("feed_pre", Constants.feedbackPreamble);
         sw7.setChecked(Constants.feedbackPreamble);
 
-        Constants.SEND_DATA=prefs.getBoolean("send_data", Constants.SEND_DATA);
-        sw8.setChecked(Constants.SEND_DATA);
+//        Constants.SEND_DATA=prefs.getBoolean("send_data", Constants.SEND_DATA);
+//        sw8.setChecked(Constants.SEND_DATA);
 
         Constants.FLIP_SYMBOL=prefs.getBoolean("flip_symbol", Constants.FLIP_SYMBOL);
         sw9.setChecked(Constants.FLIP_SYMBOL);

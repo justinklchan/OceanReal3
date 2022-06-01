@@ -2,8 +2,8 @@ package com.example.root.ffttest3;
 
 public class SNR_freq {
     public static double[] calculate_snr(double[][][] rx_spectrum, double[][] gt_symbol) {
-        int symbol_num = gt_symbol[0].length;
-//        int symbol_num = 5;
+//        int symbol_num = gt_symbol[0].length;
+        int symbol_num = Constants.chanest_symreps;
         int bin_num = gt_symbol.length;
         double[] SNR_list = new double[bin_num];
 

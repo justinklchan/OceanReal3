@@ -3,6 +3,19 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="black">#FF000000</color>
+    <color name="red">#FF0000</color>
+    <color name="orange">#FFA500</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="green">#00FF00</color>
+    <color name="blue">#0000FF</color>
+    <color name="purple">#A020F0</color>
+    <color name="black">#000000</color>
     <color name="purple_500">#FF6200EE</color>
+    <color name="blue1">#000000</color>
+    <color name="blue2">#00002a</color>
+    <color name="blue3">#00007e</color>
+    <color name="blue4">#00006c</color>
+    <color name="blue5">#0000a8</color>
+    <color name="blue6">#0000d2</color>
+    <color name="blue7">#0000fc</color>
 </resources>
