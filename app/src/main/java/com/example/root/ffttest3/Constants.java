@@ -452,10 +452,10 @@ public class Constants {
     static int preambleEndFreq;
     static int chirpPreambleTime = 100; // milliseconds
     static int preambleTime = 160; // milliseconds
-    static int fbackTime = 500; // milliseconds
+    static int fbackTime = 100; // milliseconds
     static int fbackinc;
     static boolean DecodeData = false;
-    static boolean SEND_DATA = true;
+    static boolean SEND_DATA = false;
     static boolean SEND_FEEDBACK = true;
     static int SendPad = 100;
     static int data_symreps = 1;
@@ -705,8 +705,10 @@ public class Constants {
 
     public static void updateNaiser(Context cxt) {
         if (NAISER) {
-            Constants.preambleTime = 160;
-            naiser = FileOperations.readrawasset(cxt, R.raw.naiser, 1);
+            Constants.preambleTime = 195;
+            naiser = FileOperations.readrawasset(cxt, R.raw.naiser3, 1);
+//            Constants.preambleTime = 160;
+//            naiser = FileOperations.readrawasset(cxt, R.raw.naiser, 1);
 //            preamble_spec1 = FileOperations.readrawasset(cxt, R.raw.real_naiser,1);
 //            preamble_spec2 = FileOperations.readrawasset(cxt, R.raw.imag_naiser,1);
         }

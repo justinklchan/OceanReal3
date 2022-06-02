@@ -80,8 +80,13 @@ public class Naiser {
         int win_size = 1200;
         double naiser_threshold = Constants.NaiserThresh; //adjustable
         int step_size = 8;
-        if(peak_index - win_size < 0 || peak_index + win_size + 9600 > signal.length) return new double[]{-2,-2};
-        double[] preamble_seg = Utils.segment(signal, peak_index - win_size, peak_index + win_size + 9600 -1);
+
+//        if(peak_index - win_size < 0 || peak_index + win_size + 9600 > signal.length) return new double[]{-2,-2};
+//        double[] preamble_seg = Utils.segment(signal, peak_index - win_size, peak_index + win_size + 9600 -1);
+
+        if(peak_index - win_size < 0 || peak_index + win_size + Constants.naiser.length > signal.length) return new double[]{-2,-2};
+        double[] preamble_seg = Utils.segment(signal, peak_index - win_size, peak_index + win_size + Constants.naiser.length -1);
+
         double[] max_info = Naiser_corr2(preamble_seg, 960, 240, step_size);
         Log.e("naiser","max info "+max_info[0]);
         if(max_info[0] < naiser_threshold) return new double[]{-1,max_info[0]};

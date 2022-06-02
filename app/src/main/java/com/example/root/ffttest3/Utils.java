@@ -898,9 +898,9 @@ public class Utils {
 
     public static int[] getCandidateLocs(double[] corr) {
         double[] corr2 = Utils.copyArray(corr);
-        int MAX_CANDS = 2;
+        int MAX_CANDS = 3;
         int[] maxvals=new int[MAX_CANDS];
-        int win=1200;
+        int win=2400;
         for (int i = 0; i < MAX_CANDS; i++) {
             double[] maxs=Utils.max(corr2);
             maxvals[i] = (int)maxs[1];

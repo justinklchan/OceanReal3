@@ -212,8 +212,8 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                 Constants.sp1.play(Constants.volume);
 
                 int sig_len = (int)(((double)sig.length/Constants.fs)*1000);
-//                sleep(sig_len+Constants.SendPad);
-                sleep(sig_len);
+                sleep(sig_len+Constants.SendPad);
+//                sleep(sig_len);
 
                 feedback_signal = Utils.waitForChirp(Constants.SignalType.Feedback, m_attempt, chirpLoopNumber);
                 Utils.log("finish wait for chirp");
