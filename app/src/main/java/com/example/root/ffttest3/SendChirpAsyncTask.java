@@ -202,6 +202,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
         if (Constants.user.equals(Constants.User.Alice)) {
             int chirpLoopNumber = 0;
             double[] feedback_signal = null;
+            Constants.time = System.currentTimeMillis();
             do {
                 short[] sig = ChirpGen.sounding_signal_s();
                 FileOperations.writetofile(MainActivity.av, sig, Utils.genName(Constants.   SignalType.Sounding, m_attempt) + ".txt");
@@ -211,9 +212,11 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                 Constants.sp1.play(Constants.volume);
 
                 int sig_len = (int)(((double)sig.length/Constants.fs)*1000);
-                sleep(sig_len+Constants.SendPad);
+//                sleep(sig_len+Constants.SendPad);
+                sleep(sig_len);
 
                 feedback_signal = Utils.waitForChirp(Constants.SignalType.Feedback, m_attempt, chirpLoopNumber);
+                Utils.log("finish wait for chirp");
                 chirpLoopNumber++;
                 if (chirpLoopNumber >= 20 || !Constants.work) {
                     return -1;

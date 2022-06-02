@@ -47,7 +47,7 @@ public class Tests {
             int[] cands = Utils.getCandidateLocs(corr);
             for (Integer i : cands) {
                 int idx = (Utils.transform_idx(i, seg.length));
-                int out = Naiser.Naiser_check_valid(filt, idx);
+//                int out = Naiser.Naiser_check_valid(filt, idx);
 //                Log.e("naiser", j+":"+out + "");
             }
             Log.e("asdf",(System.currentTimeMillis()-t1)+"");
@@ -126,13 +126,70 @@ public class Tests {
 //        double[] sig = FileOperations.readfromfile(MainActivity.av, "test2","Alice-Feedback-23-0-bottom");
 //        double[] sig = FileOperations.readfromfile(MainActivity.av, "4_1643270168253","Alice-Feedback-0-6-bottom");
 //        double[] sig = FileOperations.readfromfile(MainActivity.av, "4_1643271538924","Alice-Feedback-28-0-bottom");
-//        double[] sig = FileOperations.readfromfile(MainActivity.av, "4_1643253308181","Alice-Feedback-0-0-bottom");
+//        5_1654157721160
+//        5_1654157722971
 
-        for (int i = 0; i < 25; i++) {
-            double[] sig = FileOperations.readfromfile(MainActivity.av, "test", "Alice-Feedback-"+i+"-0-bottom");
+//        for (int k = 0; k <= 4; k++) {
+////        for (int k = 3; k <= 4; k++) {
+//            double[] sig = FileOperations.readfromfile(MainActivity.av, "5_1654157722971", "Alice-Feedback-0-"+k+"-bottom");
+//            int cc = 0;
+//            double[] tx_preamble = ChirpGen.preamble_d();
+//
+//            for (int i = 0; i < (sig.length / 24e3) - 2; i++) {
+//                double[] seg = Utils.segment(sig, cc, cc + 48000);
+//
+//                double[] filt = Utils.copyArray(seg);
+//                filt = Utils.filter(filt);
+//
+//                double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, seg, Constants.SignalType.Feedback);
+//                Utils.log(String.format("xcorr out %.0f,%.0f (%.2f)", xcorr_out[0], xcorr_out[1], xcorr_out[2]));
+//                cc = cc + 24000;
+//            }
+//        }
 
-            int[] valid_bins = FeedbackSignal.extractSignal(sig, 0, Constants.SignalType.Feedback);
+        for (int k = 0; k <= 4; k++) {
+//        for (int k = 3; k <= 4; k++) {
+            double[] sig = FileOperations.readfromfile(MainActivity.av, "5_1654157721160", "Bob-Sounding-0-"+k+"-bottom");
+            int cc = 0;
+            double[] tx_preamble = ChirpGen.preamble_d();
+
+            for (int i = 0; i < (sig.length / 24e3) - 2; i++) {
+                double[] seg = Utils.segment(sig, cc, cc + 48000);
+
+                double[] filt = Utils.copyArray(seg);
+                filt = Utils.filter(filt);
+
+                double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, seg, Constants.SignalType.Feedback);
+                Utils.log(String.format("xcorr out %.0f,%.0f (%.2f)", xcorr_out[0], xcorr_out[1], xcorr_out[2]));
+                cc = cc + 24000;
+            }
         }
+
+
+
+
+
+
+//        int[] valid_bins = FeedbackSignal.extractSignal(sig, 0, Constants.SignalType.Feedback);
+//        Log.e("bins", valid_bins[0] + "," + valid_bins[1]);
+
+//        int[] idx = new int[]{1,1};
+//        int[]idx=new int[]{4,6,2,2,2,2}; // 6
+//        for (int i = 0; i <= idx[0]; i++) {
+//            for (int j = 0; j <= idx[i+1]; j++) {
+//                double[] sig = FileOperations.readfromfile(MainActivity.av, "alice6", "Alice-Feedback-"+i+"-" + j + "-bottom");
+//
+//                int[] valid_bins = FeedbackSignal.extractSignal(sig, 0, Constants.SignalType.Feedback);
+//                Log.e("bins", i+","+j+","+valid_bins[0] + "," + valid_bins[1]);
+////                break;
+//            }
+////            break;
+//        }
+//        for (int i = 0; i < 25; i++) {
+//            double[] sig = FileOperations.readfromfile(MainActivity.av, "test", "Alice-Feedback-"+i+"-0-bottom");
+//
+//            int[] valid_bins = FeedbackSignal.extractSignal(sig, 0, Constants.SignalType.Feedback);
+//        }
 //        if (valid_bins[0] != -1) {
 //            SendChirpAsyncTask.sendData(valid_bins, 0);
 //        } else {

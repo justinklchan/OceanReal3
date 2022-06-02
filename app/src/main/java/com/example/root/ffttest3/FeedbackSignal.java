@@ -54,7 +54,7 @@ public class FeedbackSignal {
 
         //////////////////////////////////////////////////////////////////////////
 
-        int rec_start = start_point+preamble.length+Constants.ChirpGap+1;
+        int rec_start = start_point+preamble.length+Constants.FeedbackChirpGap+1;
         int rec_end = rec_start+(int)((Constants.fbackTime/1000.0)*Constants.fs)-1;
         int rec_len = (rec_end - rec_start)+1;
         Log.e(LOG, rec.length+","+rec_start+","+rec_end+","+rec_len);
@@ -198,7 +198,7 @@ public class FeedbackSignal {
         Log.e(LOG,"FeedbackSignal_multi_freq_signal "+fbegin+","+fend);
         int len = (int)((len_ms/1000.0)*Constants.fs);
         if (preamble) {
-            len += ((Constants.preambleTime/1000.0)*Constants.fs)+Constants.ChirpGap;
+            len += ((Constants.preambleTime/1000.0)*Constants.fs)+Constants.FeedbackChirpGap;
         }
         short[] txsig = new short[len];
 
@@ -207,7 +207,7 @@ public class FeedbackSignal {
             for (Short s : ChirpGen.preamble_s()) {
                 txsig[counter++] = s;
             }
-            counter += Constants.ChirpGap;
+            counter += Constants.FeedbackChirpGap;
         }
 
 //        if (Constants.Ns==960) {

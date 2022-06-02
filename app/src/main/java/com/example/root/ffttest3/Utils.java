@@ -478,11 +478,11 @@ public class Utils {
         return maxidx;
     }
 
-    public static double[] xcorr_online(double[] preamble, double[] filt, double[] sig, int sig_len, Constants.SignalType sigType) {
+    public static double[] xcorr_online(double[] preamble, double[] filt, double[] sig, Constants.SignalType sigType) {
         long t1 = System.currentTimeMillis();
 //        Log.e("fifo","filt length "+filt.length+"");
         double[] corr = xcorr_helper(preamble,filt);
-        Log.e("timer2","a "+(System.currentTimeMillis()-t1)+"");
+//        Log.e("timer2","a "+(System.currentTimeMillis()-t1)+"");
 
         if (Constants.XcorrVersion==1) {
             return evalSegv1(filt, corr, 0, preamble);
@@ -490,10 +490,10 @@ public class Utils {
         else if (Constants.XcorrVersion==2){
 //            t1 = System.currentTimeMillis();
             double[] out = evalSegv2(sig, filt, corr, preamble, sigType);
-            Log.e("timer2","b "+(System.currentTimeMillis()-t1)+"");
+//            Log.e("timer2","b "+(System.currentTimeMillis()-t1)+"");
             return out;
         }
-        return new double[]{-1,-1};
+        return new double[]{-1,-1,-1};
     }
 
     public static double[] calculateSNR_null(double[] spec_symbol) {
@@ -568,19 +568,25 @@ public class Utils {
     public static double[] evalSegv2(double[] sig, double[] filt, double[] corr,double[] preamble,
                                      Constants.SignalType sigType) {
         int[] cands=Utils.getCandidateLocs(corr);
-        Log.e("cands","cands "+cands.length);
+//        Log.e("cands","cands "+cands.length);
+        double max=0;
+        int maxidx=0;
         for (int j = 0; j < cands.length; j++) {
             int idx = (transform_idx(cands[j], filt.length));
-            int legit2 = Naiser.Naiser_check_valid(filt, idx);
-            Log.e("cands_stat",cands[j]+","+idx+","+legit2+","+sigType);
-            if (legit2 > 0) {
+            double[] legit2 = Naiser.Naiser_check_valid(filt, idx);
+            if (legit2[1]>max) {
+                max=legit2[1];
+                maxidx = idx;
+            }
+//            Log.e("cands_stat",cands[j]+","+idx+","+legit2+","+sigType);
+            if (legit2[0] > 0) {
                 boolean legit = Utils.isLegit(sig,sigType,preamble,idx);
 //                if (legit || !Constants.CHECK_SYM) {
-                    return new double[]{corr[cands[j]], idx};
+                    return new double[]{corr[cands[j]], idx, legit2[1]};
 //                }
             }
         }
-        return new double[]{-1,-1};
+        return new double[]{-1,maxidx,max};
     }
 
     public static double[] evalSegv1(double[] filt, double[] corr, int counter, double[] preamble) {
@@ -660,6 +666,13 @@ public class Utils {
     }
 
     public static double[] waitForChirp(Constants.SignalType sigType, int m_attempt, int chirpLoopNumber) {
+        String filename = Utils.genName(sigType, m_attempt, chirpLoopNumber);
+        Log.e("fifo",filename);
+
+        Constants._OfflineRecorder = new OfflineRecorder(
+                MainActivity.av, Constants.fs, filename);
+        Constants._OfflineRecorder.start2();
+
         int MAX_WINDOWS = 0;
 
         int numWindowsLeft = 0;
@@ -718,17 +731,6 @@ public class Utils {
         int N = (int)(timeout*(Constants.fs/Constants.RecorderStepSize));
         double[] tx_preamble = ChirpGen.preamble_d();
 
-        String filename = Utils.genName(sigType, m_attempt, chirpLoopNumber);
-        Log.e("fifo",filename);
-
-//        if (Constants._OfflineRecorder != null) {
-//            Constants._OfflineRecorder.halt2();
-//        }
-
-        Constants._OfflineRecorder = new OfflineRecorder(
-                MainActivity.av, Constants.fs, filename);
-        Constants._OfflineRecorder.start2();
-
         ArrayList<Double[]> sampleHistory = new ArrayList<>();
         ArrayList<Double> valueHistory = new ArrayList<>();
         ArrayList<Double> idxHistory = new ArrayList<>();
@@ -737,13 +739,12 @@ public class Utils {
         boolean valid_signal = false;
 //        boolean getOneMoreFlag = false;
         int sounding_signal_counter=0;
-        long t1 = System.currentTimeMillis();
         for (int i = 0; i < N; i++) {
             Double[] rec = Utils.convert2(Constants._OfflineRecorder.get_FIFO());
-            Log.e("timer1",m_attempt+","+rec.length+","+i+","+N+","+(System.currentTimeMillis()-t1)+"");
+//            Log.e("timer1",m_attempt+","+rec.length+","+i+","+N+","+(System.currentTimeMillis()-t1)+"");
 
             if (sigType.equals(Constants.SignalType.Sounding)||
-                    sigType.equals(Constants.SignalType.Feedback)) {
+                sigType.equals(Constants.SignalType.Feedback)) {
 //                Log.e("fifo","loop "+i);
 
                 if (i<MAX_WINDOWS) {
@@ -760,10 +761,13 @@ public class Utils {
 
                         //value,idx
 //                    t1=System.currentTimeMillis();
-                        double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, out, rec.length, sigType);
+                        double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, out, sigType);
 //                    Log.e("timer2",(System.currentTimeMillis()-t1)+"");
 
-                        Utils.log("xcorr out " + xcorr_out[0] + "," + xcorr_out[1]);
+                        long t1 = System.currentTimeMillis();
+//                        long diff = t1 - Constants.time;
+                        Utils.log(String.format("xcorr out %.0f,%.0f (%.2f) %d",xcorr_out[0],xcorr_out[1],xcorr_out[2],(t1-Constants.time)));
+                        Constants.time = t1;
 
                         sampleHistory.add(rec);
                         valueHistory.add(xcorr_out[0]);
@@ -772,6 +776,7 @@ public class Utils {
                         if (xcorr_out[0] != -1) {
                             if (xcorr_out[1] + len + synclag > Constants.RecorderStepSize*MAX_WINDOWS) {
                                 Log.e("fifo","one more flag "+xcorr_out[1]+","+(xcorr_out[1] + len + synclag));
+                                Utils.log("one more flag");
                                 numWindowsLeft = MAX_WINDOWS;
                                 sounding_signal = new double[(numWindowsLeft*Constants.RecorderStepSize)+(out.length-(int)xcorr_out[1]+1)];
 //                                copy out from xcorr_out[1] to end into sounding signal
@@ -780,6 +785,7 @@ public class Utils {
                                 }
                             } else {
                                 Log.e("fifo","good! "+out.length+","+xcorr_out[1]+","+out.length);
+                                Utils.log("good");
                                 sounding_signal = Utils.segment(out, (int) xcorr_out[1], out.length - 1);
                                 valid_signal = true;
                                 break;
@@ -787,6 +793,7 @@ public class Utils {
                         }
                     }
                     else {
+                        Utils.log("another window");
                         Log.e("fifo","another window from "+sounding_signal_counter+","+(sounding_signal_counter+rec.length)+","+sounding_signal.length);
                         for (int j = 0; j < rec.length; j++) {
                             sounding_signal[sounding_signal_counter++]=rec[j];
@@ -891,13 +898,14 @@ public class Utils {
 
     public static int[] getCandidateLocs(double[] corr) {
         double[] corr2 = Utils.copyArray(corr);
-        int MAX_CANDS = 3;
+        int MAX_CANDS = 2;
         int[] maxvals=new int[MAX_CANDS];
+        int win=1200;
         for (int i = 0; i < MAX_CANDS; i++) {
             double[] maxs=Utils.max(corr2);
             maxvals[i] = (int)maxs[1];
-            int idx1 = Math.max(0,(int)maxs[1]-2400);
-            int idx2 = Math.min(corr.length-1,(int)maxs[1]+2400);
+            int idx1 = Math.max(0,(int)maxs[1]-win);
+            int idx2 = Math.min(corr.length-1,(int)maxs[1]+win);
             for (int j = idx1; j < idx2; j++) {
                 corr2[j]=0;
             }
@@ -906,7 +914,7 @@ public class Utils {
     }
 
     public static double[] xcorr_helper(double[] preamble, double[] sig) {
-        Log.e(LOG, "Utils_xcorr " + preamble.length + "," + sig.length);
+//        Log.e(LOG, "Utils_xcorr " + preamble.length + "," + sig.length);
         double[][] a = Utils.fftcomplexoutnative_double(preamble, sig.length);
         double[][] b = Utils.fftcomplexoutnative_double(sig, sig.length);
         Utils.conjnative(b);

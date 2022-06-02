@@ -25,7 +25,6 @@ public class SNR_freq {
             noise_level = noise_level/symbol_num;
             double signal_level = Math.pow(H[0], 2) + Math.pow(H[1], 2);
             SNR_list[i] = Utils.mag2db(signal_level/noise_level)/2;
-
         }
         return SNR_list;
     }

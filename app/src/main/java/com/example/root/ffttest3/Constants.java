@@ -103,8 +103,8 @@ public class Constants {
 //    public static int FEEDBACK_SNR_THRESH = 5;
 
     public static int SNR_THRESH1 = 5;
-    public static int SNR_THRESH2 = 8;
-    public static int SNR_THRESH2_2 = 8;
+    public static int SNR_THRESH2 = 8+6;
+    public static int SNR_THRESH2_2 = 8+6;
 
     static int SyncLag = 2;
     static int WaitForFeedbackTimeDefault = 1;
@@ -176,8 +176,10 @@ public class Constants {
     public static int sym_len;
     public static int blocklen;
 
+    public static long time;
     public static GraphView gview,gview2,gview3;
     public static int ChirpGap = 960;
+    public static int FeedbackChirpGap = 960;
     public static int[] valid_carrier_preamble;
     public static int[] valid_carrier_data;
     public static int[] valid_carrier_default;
@@ -450,10 +452,10 @@ public class Constants {
     static int preambleEndFreq;
     static int chirpPreambleTime = 100; // milliseconds
     static int preambleTime = 160; // milliseconds
-    static int fbackTime = 200; // milliseconds
+    static int fbackTime = 500; // milliseconds
     static int fbackinc;
     static boolean DecodeData = false;
-    static boolean SEND_DATA = false;
+    static boolean SEND_DATA = true;
     static boolean SEND_FEEDBACK = true;
     static int SendPad = 100;
     static int data_symreps = 1;
