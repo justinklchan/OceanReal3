@@ -760,12 +760,9 @@ public class Utils {
                         filt = Utils.filter(filt);
 
                         //value,idx
-//                    t1=System.currentTimeMillis();
                         double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, out, sigType);
-//                    Log.e("timer2",(System.currentTimeMillis()-t1)+"");
 
                         long t1 = System.currentTimeMillis();
-//                        long diff = t1 - Constants.time;
                         Utils.log(String.format("xcorr out %.0f,%.0f (%.2f) %d",xcorr_out[0],xcorr_out[1],xcorr_out[2],(t1-Constants.time)));
                         Constants.time = t1;
 
@@ -780,6 +777,10 @@ public class Utils {
                                 numWindowsLeft = MAX_WINDOWS;
                                 sounding_signal = new double[(numWindowsLeft*Constants.RecorderStepSize)+(out.length-(int)xcorr_out[1]+1)];
 //                                copy out from xcorr_out[1] to end into sounding signal
+
+                                Log.e("fifo", "copy ("+xcorr_out[1]+","+out.length+") to ("+sounding_signal_counter+")");
+                                int t_idx = (int)xcorr_out[1];
+                                Log.e("copy","copying "+out[t_idx]+","+out[t_idx+1]+","+out[t_idx+2]+","+out[t_idx+3]+","+out[t_idx+4]);
                                 for (int j = (int)xcorr_out[1]; j < out.length; j++) {
                                     sounding_signal[sounding_signal_counter++]=out[j];
                                 }
@@ -803,23 +804,6 @@ public class Utils {
                             valid_signal=true;
                             break;
                         }
-//                        if(xcorr_out[0] > valueHistory.get(valueHistory.size()-1)) {
-//                            Log.e("fifo","segment 2 "+out.length+","+xcorr_out[1]+","+out.length);
-//                            sounding_signal = Utils.segment(out,(int)xcorr_out[1],out.length-1);
-//                            valid_signal = true;
-//                            break;
-//                        } else if (xcorr_out[0] != -1){
-//                            valid_signal = true;
-//                            Log.e("fifo","segment 3 "+out.length+","+xcorr_out[1]+","+out.length);
-//                            sounding_signal = Utils.segment(out, (int)xcorr_out[1], out.length-1);
-////                            numWindowsLeft--;
-//                            break;
-//                        } else if (xcorr_out[1] == -1) {
-//                            // can occur with noise
-//                            Log.e("fifo","noise..." +xcorr_out[0]+","+xcorr_out[1]);
-//                            numWindowsLeft = 0;
-//                        }
-
                     }
 
                     if(sampleHistory.size() >= 6){
@@ -829,32 +813,9 @@ public class Utils {
                     }
                 }
             }
-//            else {
-//                sampleHistory.add(rec);
-//            }
         }
 
         Constants._OfflineRecorder.halt2();
-
-//        if (sigType.equals(Constants.SignalType.DataRx)) {
-//            double[] out = new double[sampleHistory.get(0).length * sampleHistory.size()];
-//            double maxcorrval=0;
-//            int maxidx=0;
-//            for (Double[] rec : sampleHistory) {
-//                double[] filt = Utils.copyArray(out);
-//                Utils.filter(filt);
-//
-//                double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, out, rec.length);
-//                if (xcorr_out[1]-Constants.besselFiltOffset >= 0) {
-//                    xcorr_out[1] -= Constants.besselFiltOffset;
-//                }
-//                if (xcorr_out[0] > maxcorrval) {
-//                    maxcorrval=xcorr_out[0];
-//                    maxidx = (int)xcorr_out[1];
-//                }
-//            }
-//            return out;
-//        }
 
         if (valid_signal) {
             return sounding_signal;

@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //        Tests.sounding_test();
 //        ChirpGen.sounding_signal_s();
 //        Tests.bin_filling();
-        Tests.feedback_test();
+//        Tests.feedback_test();
     }
 
     public static void testme() {

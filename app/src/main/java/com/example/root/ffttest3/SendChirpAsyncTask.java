@@ -275,6 +275,8 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
             int chirpLoopNumber = 0;
             int[] valid_bins = null;
             double[] sounding_signal = null;
+            double[] tx_preamble = ChirpGen.preamble_d();
+
             do {
                 Log.e("fifo","work bob");
                 Log.e("timer","wait for chirp "+m_attempt+","+chirpLoopNumber);
@@ -283,7 +285,13 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                 if (sounding_signal == null) {
                     return -1;
                 }
-                valid_bins = ChannelEstimate.extractSignal_withsymbol_helper(av, sounding_signal, 0, m_attempt);
+//                FileOperations.writetofile(MainActivity.av, sounding_signal,Utils.genName(Constants.SignalType.Test, m_attempt) + ".txt");
+
+                double[] filt = Utils.copyArray(sounding_signal);
+                filt = Utils.filter(filt);
+                double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, sounding_signal, Constants.SignalType.Sounding);
+
+                valid_bins = ChannelEstimate.extractSignal_withsymbol_helper(av, sounding_signal, (int)xcorr_out[1], m_attempt);
                 Log.e("fifo", "valid bins " + valid_bins.length);
                 for (int i = 0; i < valid_bins.length; i++) {
                     Log.e("fifo", valid_bins[i] + "");

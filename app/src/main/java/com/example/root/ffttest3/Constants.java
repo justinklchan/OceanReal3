@@ -65,7 +65,8 @@ public class Constants {
         SNRMethod,
         ValidBins,
         FlipSyms,
-        Timestamp
+        Timestamp,
+        Test,
     }
     public enum EstSignalType {
         Chirp,
@@ -104,7 +105,7 @@ public class Constants {
 
     public static int SNR_THRESH1 = 5;
     public static int SNR_THRESH2 = 8+6;
-    public static int SNR_THRESH2_2 = 8+6;
+    public static int SNR_THRESH2_2 = 6+6;
 
     static int SyncLag = 2;
     static int WaitForFeedbackTimeDefault = 1;
@@ -455,7 +456,7 @@ public class Constants {
     static int fbackTime = 100; // milliseconds
     static int fbackinc;
     static boolean DecodeData = false;
-    static boolean SEND_DATA = false;
+    static boolean SEND_DATA = true;
     static boolean SEND_FEEDBACK = true;
     static int SendPad = 100;
     static int data_symreps = 1;
@@ -465,6 +466,7 @@ public class Constants {
     static short[] data12;
     static short[] data23;
     static boolean NAISER = true;
+    static int naiserVersion = 2;
     static boolean DATA_NAISER = true;
     static boolean CHECK_SYM = false;
     static boolean onebin = false;
@@ -705,10 +707,14 @@ public class Constants {
 
     public static void updateNaiser(Context cxt) {
         if (NAISER) {
-            Constants.preambleTime = 195;
-            naiser = FileOperations.readrawasset(cxt, R.raw.naiser3, 1);
-//            Constants.preambleTime = 160;
-//            naiser = FileOperations.readrawasset(cxt, R.raw.naiser, 1);
+            if (naiserVersion==1) {
+                Constants.preambleTime = 160;
+                naiser = FileOperations.readrawasset(cxt, R.raw.naiser, 1);
+            }
+            else if (naiserVersion==2) {
+                Constants.preambleTime = 195;
+                naiser = FileOperations.readrawasset(cxt, R.raw.naiser3, 1);
+            }
 //            preamble_spec1 = FileOperations.readrawasset(cxt, R.raw.real_naiser,1);
 //            preamble_spec2 = FileOperations.readrawasset(cxt, R.raw.imag_naiser,1);
         }

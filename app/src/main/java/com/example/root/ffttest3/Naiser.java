@@ -87,7 +87,13 @@ public class Naiser {
         if(peak_index - win_size < 0 || peak_index + win_size + Constants.naiser.length > signal.length) return new double[]{-2,-2};
         double[] preamble_seg = Utils.segment(signal, peak_index - win_size, peak_index + win_size + Constants.naiser.length -1);
 
-        double[] max_info = Naiser_corr2(preamble_seg, 960, 240, step_size);
+        double[] max_info=null;
+        if (Constants.naiserVersion==1) {
+            max_info = Naiser_corr(preamble_seg, 960,  step_size);
+        }
+        else if (Constants.naiserVersion==2) {
+            max_info = Naiser_corr2(preamble_seg, 960, 240, step_size);
+        }
         Log.e("naiser","max info "+max_info[0]);
         if(max_info[0] < naiser_threshold) return new double[]{-1,max_info[0]};
         else{

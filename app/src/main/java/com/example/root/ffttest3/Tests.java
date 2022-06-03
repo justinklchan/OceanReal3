@@ -129,46 +129,54 @@ public class Tests {
 //        5_1654157721160
 //        5_1654157722971
 
-//        for (int k = 0; k <= 4; k++) {
-////        for (int k = 3; k <= 4; k++) {
-//            double[] sig = FileOperations.readfromfile(MainActivity.av, "5_1654157722971", "Alice-Feedback-0-"+k+"-bottom");
-//            int cc = 0;
-//            double[] tx_preamble = ChirpGen.preamble_d();
-//
-//            for (int i = 0; i < (sig.length / 24e3) - 2; i++) {
-//                double[] seg = Utils.segment(sig, cc, cc + 48000);
-//
-//                double[] filt = Utils.copyArray(seg);
-//                filt = Utils.filter(filt);
-//
-//                double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, seg, Constants.SignalType.Feedback);
-//                Utils.log(String.format("xcorr out %.0f,%.0f (%.2f)", xcorr_out[0], xcorr_out[1], xcorr_out[2]));
-//                cc = cc + 24000;
-//            }
-//        }
 
-        for (int k = 0; k <= 4; k++) {
-//        for (int k = 3; k <= 4; k++) {
-            double[] sig = FileOperations.readfromfile(MainActivity.av, "5_1654157721160", "Bob-Sounding-0-"+k+"-bottom");
-            int cc = 0;
-            double[] tx_preamble = ChirpGen.preamble_d();
 
-            for (int i = 0; i < (sig.length / 24e3) - 2; i++) {
-                double[] seg = Utils.segment(sig, cc, cc + 48000);
+        boolean done=false;
+        for (int m = 2; m <= 2; m++) {
+            for (int k = 0; k <= 6; k++) {
+                double[] sig = FileOperations.readfromfile(MainActivity.av, "alice", "Alice-Feedback-"+m+"-" + k + "-bottom");
+                if (sig.length > 0) {
+                    int cc = 0;
+                    double[] tx_preamble = ChirpGen.preamble_d();
 
-                double[] filt = Utils.copyArray(seg);
-                filt = Utils.filter(filt);
+                    for (int i = 0; i < (sig.length / 24e3) - 2; i++) {
+                        double[] seg = Utils.segment(sig, cc, cc + 48000);
 
-                double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, seg, Constants.SignalType.Feedback);
-                Utils.log(String.format("xcorr out %.0f,%.0f (%.2f)", xcorr_out[0], xcorr_out[1], xcorr_out[2]));
-                cc = cc + 24000;
+                        double[] filt = Utils.copyArray(seg);
+                        filt = Utils.filter(filt);
+
+                        double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, seg, Constants.SignalType.Feedback);
+                        Utils.log(String.format("xcorr out %.0f,%.0f,%.0f,%d (%.2f)", xcorr_out[0], xcorr_out[1], xcorr_out[1]+cc,cc, xcorr_out[2]));
+                        if (xcorr_out[2]>=0.3) {
+                            double[] feedback_signal = Utils.segment(seg, (int) xcorr_out[1], seg.length - 1);
+                            double[] fback2=null;
+                            if (cc+48000+24000>sig.length) {
+                                fback2=Utils.concat(feedback_signal,Utils.segment(sig, cc+48000, sig.length-1));
+                            }
+                            else {
+                                fback2 = Utils.concat(feedback_signal, Utils.segment(sig, cc + 48000, cc + 48000 + 24000));
+                            }
+                            Log.e("copy","copying "+fback2[0]+","+fback2[1]+","+fback2[2]+","+fback2[3]+","+fback2[4]);
+
+//                            int[] valid_bins = ChannelEstimate.extractSignal_withsymbol_helper(MainActivity.av, fback2, 0, 0);
+//                            short[] feedback = FeedbackSignal.multi_freq_signal(valid_bins[0], valid_bins[valid_bins.length - 1],
+//                                    Constants.fbackTime, true, 0);
+
+                            int[] valid_bins = FeedbackSignal.extractSignalHelper(fback2, 0, 0);
+                            done=true;
+                            break;
+                        }
+                        cc = cc + 24000;
+                    }
+                }
+                if (done) {
+                    break;
+                }
+            }
+            if (done) {
+                break;
             }
         }
-
-
-
-
-
 
 //        int[] valid_bins = FeedbackSignal.extractSignal(sig, 0, Constants.SignalType.Feedback);
 //        Log.e("bins", valid_bins[0] + "," + valid_bins[1]);
