@@ -245,7 +245,7 @@ public class SymbolGeneration {
         short[] symbol = new short[symbol_complex[0].length];
         double divval=(bound2-bound1)+1;
         if (sigType.equals(Constants.SignalType.Sounding)) {
-            divval = 30;
+            divval = divval/2;
         }
         for (int i = 0; i < symbol.length; i++) {
             symbol[i] = (short)((symbol_complex[0][i]/(double)divval)*32767.0);
