@@ -199,6 +199,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
     }
 
     public int work(int m_attempt) {
+        double[] tx_preamble = ChirpGen.preamble_d();
         if (Constants.user.equals(Constants.User.Alice)) {
             int chirpLoopNumber = 0;
             double[] feedback_signal = null;
@@ -216,14 +217,18 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
 //                sleep(sig_len);
 
                 feedback_signal = Utils.waitForChirp(Constants.SignalType.Feedback, m_attempt, chirpLoopNumber);
-                Utils.log("finish wait for chirp");
+//                Utils.log("finish wait for chirp");
                 chirpLoopNumber++;
                 if (chirpLoopNumber >= 20 || !Constants.work) {
                     return -1;
                 }
             } while (feedback_signal == null);
 
-            int[] valid_bins = FeedbackSignal.extractSignalHelper(feedback_signal, 0, m_attempt);
+            double[] filt = Utils.copyArray(feedback_signal);
+            filt = Utils.filter(filt);
+            double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, feedback_signal, Constants.SignalType.Sounding);
+
+            int[] valid_bins = FeedbackSignal.extractSignalHelper(feedback_signal,  (int)xcorr_out[1], m_attempt);
             Log.e("fifo","valid bins "+valid_bins.length);
             for (int i = 0; i <valid_bins.length; i++) {
                 Log.e("fifo",valid_bins[i]+"");
@@ -275,7 +280,6 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
             int chirpLoopNumber = 0;
             int[] valid_bins = null;
             double[] sounding_signal = null;
-            double[] tx_preamble = ChirpGen.preamble_d();
 
             do {
                 Log.e("fifo","work bob");

@@ -773,7 +773,7 @@ public class Utils {
                         if (xcorr_out[0] != -1) {
                             if (xcorr_out[1] + len + synclag > Constants.RecorderStepSize*MAX_WINDOWS) {
                                 Log.e("fifo","one more flag "+xcorr_out[1]+","+(xcorr_out[1] + len + synclag));
-                                Utils.log("one more flag");
+//                                Utils.log("one more flag");
                                 numWindowsLeft = MAX_WINDOWS;
                                 sounding_signal = new double[(numWindowsLeft*Constants.RecorderStepSize)+(out.length-(int)xcorr_out[1]+1)];
 //                                copy out from xcorr_out[1] to end into sounding signal
@@ -786,7 +786,7 @@ public class Utils {
                                 }
                             } else {
                                 Log.e("fifo","good! "+out.length+","+xcorr_out[1]+","+out.length);
-                                Utils.log("good");
+//                                Utils.log("good");
                                 sounding_signal = Utils.segment(out, (int) xcorr_out[1], out.length - 1);
                                 valid_signal = true;
                                 break;
@@ -794,7 +794,7 @@ public class Utils {
                         }
                     }
                     else {
-                        Utils.log("another window");
+//                        Utils.log("another window");
                         Log.e("fifo","another window from "+sounding_signal_counter+","+(sounding_signal_counter+rec.length)+","+sounding_signal.length);
                         for (int j = 0; j < rec.length; j++) {
                             sounding_signal[sounding_signal_counter++]=rec[j];

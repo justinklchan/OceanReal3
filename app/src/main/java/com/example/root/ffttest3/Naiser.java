@@ -30,7 +30,7 @@ public class Naiser {
         }
         double[] max_info = Utils.max(naiser_corr);
         max_info[1] = max_info[1] *DIVIDE_FACTOR;
-        Log.e("multiple times",Integer.toString(multi_num));
+//        Log.e("multiple times",Integer.toString(multi_num));
         return  max_info;
     }
 
@@ -72,7 +72,7 @@ public class Naiser {
 
         double[] max_info = Utils.max(naiser_corr);
         max_info[1] = max_info[1] *DIVIDE_FACTOR;
-        Log.e("multiple times",Integer.toString(multi_num));
+//        Log.e("multiple times",Integer.toString(multi_num));
         return  max_info;
     }
 
