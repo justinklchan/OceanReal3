@@ -272,33 +272,33 @@ public class ChannelEstimate {
 //            else {
                 t1 = System.currentTimeMillis();
                 if (Constants.subcarrier_number_default == 20) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 1, Constants.chanest_symreps);
                 }
                 else if (Constants.subcarrier_number_default == 40) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn40_syms, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn40_syms, 1, Constants.chanest_symreps);
                 }
                 else if (Constants.subcarrier_number_default == 60) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn60_syms, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn60_syms, 1, Constants.chanest_symreps);
                 }
                 else if (Constants.subcarrier_number_default == 120) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn120_syms, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn120_syms, 1, Constants.chanest_symreps);
                 }
                 else if (Constants.subcarrier_number_default == 300) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn300_syms, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn300_syms, 1, Constants.chanest_symreps);
                 }
                 else if (Constants.subcarrier_number_default == 600) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn600_syms, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn600_syms, 1, Constants.chanest_symreps);
                 }
                 Log.e("timer2",(System.currentTimeMillis()-t1)+"");
 //            }
             thresh=Constants.SNR_THRESH2;
 //        }
 
-//        double[] snrs7 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 7);
-//        double[] snrs6 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 6);
-//        double[] snrs5 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 5);
-//        double[] snrs4 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 4);
-//        double[] snrs3 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 3);
+//        double[] snrs6 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 7);
+//        double[] snrs5 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 6);
+//        double[] snrs4 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 5);
+//        double[] snrs3 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 4);
+//        double[] snrs2 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 3);
 //        double[] snrs2 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 2);
 //        double[] snrs1 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 1);
 

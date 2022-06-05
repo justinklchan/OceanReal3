@@ -71,9 +71,42 @@ public class Naiser {
         }
 
         double[] max_info = Utils.max(naiser_corr);
-        max_info[1] = max_info[1] *DIVIDE_FACTOR;
+        int use_85 = 1;
+        if(use_85 == 0){
+            max_info[1] = max_info[1] *DIVIDE_FACTOR;
+            return  max_info;
+        }
+
+        double max_height_85 = max_info[0]*0.85;
+        int max_height_index = (int)max_info[1];
+        int right = -1;
+        int left = -1;
+
+        for(int i = max_height_index; i < len_corr - 1; ++i){
+            if(naiser_corr[i] >= max_height_85 && naiser_corr[i+1] <= max_height_85){
+                right = i;
+                break;
+            }
+        }
+
+        for(int i = max_height_index; i > 1; --i){
+            if(naiser_corr[i] >= max_height_85 && naiser_corr[i-1] <= max_height_85){
+                left = i;
+                break;
+            }
+        }
+
+//        Utils.log("max info: "+((left+right)/2)+","+max_info[1]);
+        if(right == -1 || left == -1){
+            max_info[1] = max_info[1] *DIVIDE_FACTOR;
+            return max_info;
+        }
+        else{
+            max_info[1] = (right + left)/2.0 *DIVIDE_FACTOR;
+            return  max_info;
+        }
 //        Log.e("multiple times",Integer.toString(multi_num));
-        return  max_info;
+
     }
 
     public static double[] Naiser_check_valid(double[] signal, int peak_index) {
