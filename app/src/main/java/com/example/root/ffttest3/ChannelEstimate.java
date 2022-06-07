@@ -294,13 +294,10 @@ public class ChannelEstimate {
             thresh=Constants.SNR_THRESH2;
 //        }
 
-//        double[] snrs6 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 7);
-//        double[] snrs5 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 6);
-//        double[] snrs4 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 5);
-//        double[] snrs3 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 4);
-//        double[] snrs2 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 3);
-//        double[] snrs2 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 2);
-//        double[] snrs1 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 1);
+//        double[] snrs5 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 1,6);
+//        double[] snrs4 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 1,5);
+//        double[] snrs3 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 1,4);
+//        double[] snrs2 = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 1,3);
 
         FileOperations.writetofile(MainActivity.av, Constants.snr_method + "",
                 Utils.genName(Constants.SignalType.SNRMethod, m_attempt) + ".txt");
