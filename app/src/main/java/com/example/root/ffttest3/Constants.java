@@ -1,11 +1,15 @@
 package com.example.root.ffttest3;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -471,6 +475,11 @@ public class Constants {
     static boolean CHECK_SYM = false;
     static boolean onebin = false;
 
+    //    // Content resolver used as a handle to the system's settings
+    static ContentResolver cResolver;
+    //    // Window object, that will store a reference to the current window
+    static Window window;
+
     public static void toggleUI(boolean val) {
         Constants.sw1.setEnabled(val);
         Constants.sw2.setEnabled(val);
@@ -511,6 +520,26 @@ public class Constants {
         Constants.spinner.setEnabled(val);
         Constants.spinner2.setEnabled(val);
         Constants.spinner3.setEnabled(val);
+        if (val) {
+            setBrightness(255/2);
+        }
+        else {
+            setBrightness(0);
+        }
+    }
+
+    public static void setBrightness(int b){
+        // Set the system brightness using the brightness variable value
+        Settings.System.putInt(
+                cResolver, Settings.System.SCREEN_BRIGHTNESS, b
+        );
+
+        // Get the current window attributes
+        WindowManager.LayoutParams layoutpars = window.getAttributes();
+        // Set the brightness of this window
+        layoutpars.screenBrightness = b / 255f;
+        // Apply attribute changes to this window
+        window.setAttributes(layoutpars);
     }
 
     public static void resetRandom() {random = new Random(1);};

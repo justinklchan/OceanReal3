@@ -2,22 +2,28 @@ package com.example.root.ffttest3;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioTrack;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,6 +33,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
@@ -39,7 +47,7 @@ import com.jjoe64.graphview.GraphView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
-    String[] perms = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+    String[] perms = new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_SETTINGS};
 
     private static SensorManager sensorManager;
     private Sensor accelerometer;
@@ -54,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Example of a call to a native method
         uiSetup();
+        Constants.cResolver = getContentResolver();
+
+        Constants.window = getWindow();
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -84,6 +96,32 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //        ChirpGen.sounding_signal_s();
 //        Tests.bin_filling();
 //        Tests.feedback_test();
+        checkSystemWritePermission();
+    }
+
+    private boolean checkSystemWritePermission() {
+        boolean retVal = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            retVal = Settings.System.canWrite(this);
+//            Log.d(TAG, "Can Write Settings: " + retVal);
+            if(retVal){
+                Toast.makeText(this, "Write allowed :-)", Toast.LENGTH_LONG).show();
+            }else{
+//                Toast.makeText(this, "Write not allowed :-(", Toast.LENGTH_LONG).show();
+//                FragmentManager fm = getFragmentManager();
+//                PopupWritePermission dialogFragment = new PopupWritePermission();
+//                dialogFragment.show(fm, getString(R.string.popup_writesettings_title));
+
+                openAndroidPermissionsMenu();
+            }
+        }
+        return retVal;
+    }
+
+    private void openAndroidPermissionsMenu() {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
     }
 
     public static void testme() {
