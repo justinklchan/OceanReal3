@@ -520,12 +520,12 @@ public class Constants {
         Constants.spinner.setEnabled(val);
         Constants.spinner2.setEnabled(val);
         Constants.spinner3.setEnabled(val);
-        if (val) {
-            setBrightness(255/2);
-        }
-        else {
-            setBrightness(0);
-        }
+//        if (val) {
+//            setBrightness(255/2);
+//        }
+//        else {
+//            setBrightness(0);
+//        }
     }
 
     public static void setBrightness(int b){
@@ -741,6 +741,8 @@ public class Constants {
                 naiser = FileOperations.readrawasset(cxt, R.raw.naiser, 1);
             }
             else if (naiserVersion==2) {
+//                Constants.preambleTime = 220;
+//                naiser = FileOperations.readrawasset(cxt, R.raw.naiser_360, 1);
                 Constants.preambleTime = 195;
                 naiser = FileOperations.readrawasset(cxt, R.raw.naiser3, 1);
             }

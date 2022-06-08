@@ -44,10 +44,11 @@ public class AudioSpeaker extends Thread {
         this.mycontext = mycontext;
         man = (AudioManager)mycontext.getSystemService(Context.AUDIO_SERVICE);
         for (Integer i : streams) {
-            man.setStreamMute(i, true);
+            man.setStreamMute(i, false);
+            man.setStreamVolume(speakerType,(int)(man.getStreamMaxVolume(speakerType)),0);
         }
-        man.setStreamMute(speakerType, false);
-        man.setStreamVolume(speakerType,(int)(man.getStreamMaxVolume(speakerType)),0);
+//        man.setStreamMute(speakerType, false);
+//        man.setStreamVolume(speakerType,(int)(man.getStreamMaxVolume(speakerType)),0);
 
         write(samples);
     }

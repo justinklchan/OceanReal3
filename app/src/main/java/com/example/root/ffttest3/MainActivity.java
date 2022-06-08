@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //        Tests.bin_filling();
 //        Tests.feedback_test();
         checkSystemWritePermission();
+//        Constants.setBrightness(255);
     }
 
     private boolean checkSystemWritePermission() {

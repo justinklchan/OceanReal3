@@ -34,7 +34,7 @@ public class Naiser {
         return  max_info;
     }
 
-    public static double[] Naiser_corr2(double[] signal, int Nu, int N0, int DIVIDE_FACTOR) {
+        public static double[] Naiser_corr2(double[] signal, int Nu, int N0, int DIVIDE_FACTOR) {
         short[] PN_seq = new short[] {1, -1, -1, -1, -1, -1, 1, -1};
         int total_length = signal.length;
         int L = 8;

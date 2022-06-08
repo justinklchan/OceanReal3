@@ -147,7 +147,7 @@ public class ChannelEstimate {
 
         int rx_preamble_start = start_point;
 //        if (Constants.naiserVersion==2) {
-//            rx_preamble_start+=240;
+//            rx_preamble_start+=360;
 //        }
         int rx_preamble_end = rx_preamble_start + (int) (((Constants.preambleTime / 1000.0) * Constants.fs)) - 1;
 //        int rx_preamble_len = (rx_preamble_end - rx_preamble_start) + 1;
@@ -273,12 +273,15 @@ public class ChannelEstimate {
                 t1 = System.currentTimeMillis();
                 if (Constants.subcarrier_number_default == 20) {
                     snrs = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 1, Constants.chanest_symreps);
+//                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 0, 5);
                 }
                 else if (Constants.subcarrier_number_default == 40) {
                     snrs = SNR_freq.calculate_snr(spec_est, Constants.pn40_syms, 1, Constants.chanest_symreps);
+//                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn40_syms, 0, 5);
                 }
                 else if (Constants.subcarrier_number_default == 60) {
                     snrs = SNR_freq.calculate_snr(spec_est, Constants.pn60_syms, 1, Constants.chanest_symreps);
+//                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn60_syms, 0,5);
                 }
                 else if (Constants.subcarrier_number_default == 120) {
                     snrs = SNR_freq.calculate_snr(spec_est, Constants.pn120_syms, 1, Constants.chanest_symreps);
