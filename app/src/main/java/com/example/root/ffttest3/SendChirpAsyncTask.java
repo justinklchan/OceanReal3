@@ -1,6 +1,7 @@
 package com.example.root.ffttest3;
 
 import static com.example.root.ffttest3.Constants.LOG;
+import static com.example.root.ffttest3.Constants.feedbackPreamble;
 import static com.example.root.ffttest3.Constants.tv4;
 
 import android.app.Activity;
@@ -224,12 +225,11 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                 }
             } while (feedback_signal == null);
 
-            double[] seg = Utils.segment(feedback_signal,0,24000);
-            double[] filt = Utils.copyArray(seg);
-            filt = Utils.filter(filt);
-            double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, seg, Constants.SignalType.Sounding);
+            Log.e("len","got feedback signal "+feedback_signal.length);
+            double[] seg = Utils.segment(feedback_signal,0,24000-1);
+            double[] xcorr_out = Utils.xcorr_online(tx_preamble, seg, seg, Constants.SignalType.Feedback);
 
-            int[] valid_bins = FeedbackSignal.extractSignalHelper(feedback_signal,  (int)xcorr_out[1], m_attempt);
+            int[] valid_bins = FeedbackSignal.extractSignalHelper(feedback_signal, (int)xcorr_out[1], m_attempt);
             Log.e("fifo","valid bins "+valid_bins.length);
             for (int i = 0; i <valid_bins.length; i++) {
                 Log.e("fifo",valid_bins[i]+"");
@@ -292,18 +292,14 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                 }
 //                FileOperations.writetofile(MainActivity.av, sounding_signal,Utils.genName(Constants.SignalType.Test, m_attempt) + ".txt");
 
-//                Log.e("fifo", "segment");
-                double[] seg = Utils.segment(sounding_signal,0,24000);
-                double[] filt = Utils.copyArray(seg);
-                filt = Utils.filter(filt);
-//                Log.e("fifo", "filter");
-                double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, seg, Constants.SignalType.Sounding);
+                Log.e("len","got sounding signal "+sounding_signal.length);
+                double[] seg = Utils.segment(sounding_signal,0,24000-1);
+                double[] xcorr_out = Utils.xcorr_online(tx_preamble, seg, seg, Constants.SignalType.Sounding);
 
-//                Log.e("fifo", "extract");
                 valid_bins = ChannelEstimate.extractSignal_withsymbol_helper(av, sounding_signal, (int)xcorr_out[1], m_attempt);
-                Log.e("fifo", "valid bins " + valid_bins.length);
+                Log.e("bins", "valid bins " + valid_bins.length);
                 for (int i = 0; i < valid_bins.length; i++) {
-                    Log.e("fifo", valid_bins[i] + "");
+                    Log.e("bins", valid_bins[i] + "");
                 }
                 chirpLoopNumber++;
 

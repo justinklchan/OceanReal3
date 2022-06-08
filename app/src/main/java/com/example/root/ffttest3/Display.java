@@ -65,7 +65,7 @@ public class Display {
         }
         currentMin = tempMin < currentMin ? tempMin : currentMin;
         currentMax = tempMax > currentMax ? tempMax : currentMax;
-        Log.e("graph", currentMin+","+currentMax);
+//        Log.e("graph", currentMin+","+currentMax);
 
         LineGraphSeries<DataPoint> series = convert(spectrum);
 

@@ -681,7 +681,7 @@ public class Utils {
         int ChirpSamples = (int)((Constants.preambleTime/1000.0)*Constants.fs);
         if (sigType.equals(Constants.SignalType.Sounding)) {
             if (Constants.Ns==960||Constants.Ns==1920) {
-                MAX_WINDOWS = 1;
+                MAX_WINDOWS = 2;
             }
             else if (Constants.Ns==4800) {
                 MAX_WINDOWS=2;
@@ -693,7 +693,7 @@ public class Utils {
             len = ChirpSamples+Constants.ChirpGap+(Constants.Ns*Constants.chanest_symreps);
         }
         else if (sigType.equals(Constants.SignalType.Feedback)) {
-            MAX_WINDOWS = 1;
+            MAX_WINDOWS = 2;
             if (Constants.Ns==960||Constants.Ns==1920) {
                 timeout = 5;
             }
@@ -736,6 +736,8 @@ public class Utils {
         ArrayList<Double> idxHistory = new ArrayList<>();
         int synclag = 200;
         double[] sounding_signal = new double[]{};
+        sounding_signal=new double[(MAX_WINDOWS*Constants.RecorderStepSize)];
+        Log.e("len","sig length "+sounding_signal.length+","+sigType.toString());
         boolean valid_signal = false;
 //        boolean getOneMoreFlag = false;
         int sounding_signal_counter=0;
@@ -772,32 +774,38 @@ public class Utils {
 
                         if (xcorr_out[0] != -1) {
                             if (xcorr_out[1] + len + synclag > Constants.RecorderStepSize*MAX_WINDOWS) {
-                                Log.e("fifo","one more flag "+xcorr_out[1]+","+(xcorr_out[1] + len + synclag));
-//                                Utils.log("one more flag");
-                                numWindowsLeft = MAX_WINDOWS;
-                                sounding_signal = new double[(numWindowsLeft*Constants.RecorderStepSize)+(out.length-(int)xcorr_out[1]+1)];
-//                                copy out from xcorr_out[1] to end into sounding signal
+                                Log.e("copy","one more flag "+xcorr_out[1]+","+(xcorr_out[1] + len + synclag));
 
-                                Log.e("fifo", "copy ("+xcorr_out[1]+","+out.length+") to ("+sounding_signal_counter+")");
-                                int t_idx = (int)xcorr_out[1];
-                                Log.e("copy","copying "+out[t_idx]+","+out[t_idx+1]+","+out[t_idx+2]+","+out[t_idx+3]+","+out[t_idx+4]);
-                                for (int j = (int)xcorr_out[1]; j < out.length; j++) {
-                                    sounding_signal[sounding_signal_counter++]=out[j];
+                                numWindowsLeft = MAX_WINDOWS-1;
+
+//                                Log.e("copy","copying "+out[t_idx]+","+out[t_idx+1]+","+out[t_idx+2]+","+out[t_idx+3]+","+out[t_idx+4]);
+                                for (int j = (int)xcorr_out[1]; j < filt.length; j++) {
+                                    sounding_signal[sounding_signal_counter++]=filt[j];
                                 }
+
+                                Log.e("copy", "copy ("+xcorr_out[1]+","+filt.length+") to ("+sounding_signal_counter+")");
                             } else {
-                                Log.e("fifo","good! "+out.length+","+xcorr_out[1]+","+out.length);
+                                Log.e("copy","good! "+filt.length+","+xcorr_out[1]+","+filt.length);
 //                                Utils.log("good");
-                                sounding_signal = Utils.segment(out, (int) xcorr_out[1], out.length - 1);
+                                int counter=0;
+                                for (int k = (int) xcorr_out[1]; k < filt.length; k++) {
+                                    sounding_signal[counter++] = filt[k];
+                                }
+//                                sounding_signal = Utils.segment(filt, (int) xcorr_out[1], filt.length - 1);
                                 valid_signal = true;
                                 break;
                             }
                         }
                     }
-                    else {
+                    else if (sounding_signal_counter>0){
 //                        Utils.log("another window");
-                        Log.e("fifo","another window from "+sounding_signal_counter+","+(sounding_signal_counter+rec.length)+","+sounding_signal.length);
-                        for (int j = 0; j < rec.length; j++) {
-                            sounding_signal[sounding_signal_counter++]=rec[j];
+                        Log.e("copy","another window from "+sounding_signal_counter+","+(sounding_signal_counter+rec.length)+","+sounding_signal.length);
+
+                        double[] filt2 = Utils.copyArray2(rec);
+                        filt2 = Utils.filter(filt2);
+
+                        for (int j = 0; j < filt2.length; j++) {
+                            sounding_signal[sounding_signal_counter++]=filt2[j];
                         }
                         numWindowsLeft -= 1;
                         if (numWindowsLeft==0){
@@ -962,6 +970,14 @@ public class Utils {
     }
 
     public static double[] copyArray(double[] sig) {
+        double[] out = new double[sig.length];
+        for (int i = 0; i < sig.length; i++) {
+            out[i]=sig[i];
+        }
+        return out;
+    }
+
+    public static double[] copyArray2(Double[] sig) {
         double[] out = new double[sig.length];
         for (int i = 0; i < sig.length; i++) {
             out[i]=sig[i];

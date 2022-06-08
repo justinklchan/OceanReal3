@@ -106,6 +106,32 @@ public class Tests {
         Log.e("out",out[0]+","+out[1]);
     }
 
+    public static void sounding_test2(Activity av) {
+        double[] tx_preamble = ChirpGen.preamble_d();
+        for (int m = 13; m <= 13; m++) {
+            for (int k = 0; k <= 0; k++) {
+                double[] sig = FileOperations.readfromfile(MainActivity.av, "bob", "Bob-Sounding-"+m+"-" + k + "-bottom");
+                if (sig.length > 0) {
+                    int numsegs=(sig.length/24000)-1;
+                    int cc=0;
+                    for (int i = 0; i < numsegs; i++) {
+                        double[] seg = Utils.segment(sig,cc,cc+24000);
+                        double[] filt = Utils.copyArray(seg);
+                        filt = Utils.filter(filt);
+                        double[] xcorr_out = Utils.xcorr_online(tx_preamble, filt, seg, Constants.SignalType.Sounding);
+
+                        Log.e("asdf",String.format("%d %.0f %.0f %.0f %.2f",i,xcorr_out[0],xcorr_out[1],(xcorr_out[1]+cc),xcorr_out[2]));
+                        if (xcorr_out[2]>.5) {
+                            int[] valid_bins = ChannelEstimate.extractSignal_withsymbol_helper(av, filt, (int) xcorr_out[1], 0);
+                            Log.e("asdf",valid_bins[0]+","+valid_bins[1]);
+                        }
+                        cc+=24e3;
+                    }
+                }
+            }
+        }
+    }
+
     public static void feedback_test() {
 //        [23,23] 1642662861353
 //        [13,14] 1642662833938
@@ -129,12 +155,10 @@ public class Tests {
 //        5_1654157721160
 //        5_1654157722971
 
-
-
         boolean done=false;
-        for (int m = 2; m <= 2; m++) {
-            for (int k = 0; k <= 6; k++) {
-                double[] sig = FileOperations.readfromfile(MainActivity.av, "alice", "Alice-Feedback-"+m+"-" + k + "-bottom");
+        for (int m = 4; m <= 4; m++) {
+            for (int k = 0; k <= 0; k++) {
+                double[] sig = FileOperations.readfromfile(MainActivity.av, "5_1654665881086", "Alice-Feedback-"+m+"-" + k + "-bottom");
                 if (sig.length > 0) {
                     int cc = 0;
                     double[] tx_preamble = ChirpGen.preamble_d();

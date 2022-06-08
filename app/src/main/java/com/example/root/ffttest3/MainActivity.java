@@ -96,8 +96,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //        ChirpGen.sounding_signal_s();
 //        Tests.bin_filling();
 //        Tests.feedback_test();
-        checkSystemWritePermission();
+//        checkSystemWritePermission();
 //        Constants.setBrightness(255);
+//        Tests.sounding_test2(this);
+//        Tests.feedback_test();
     }
 
     private boolean checkSystemWritePermission() {
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             retVal = Settings.System.canWrite(this);
 //            Log.d(TAG, "Can Write Settings: " + retVal);
             if(retVal){
-                Toast.makeText(this, "Write allowed :-)", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "Write allowed :-)", Toast.LENGTH_LONG).show();
             }else{
 //                Toast.makeText(this, "Write not allowed :-(", Toast.LENGTH_LONG).show();
 //                FragmentManager fm = getFragmentManager();

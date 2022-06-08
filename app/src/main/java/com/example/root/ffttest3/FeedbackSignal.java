@@ -246,14 +246,13 @@ public class FeedbackSignal {
             }
         }
 
-//        short[] feedback = new short[fbackLen];
-        int counter2=0;
-//        for (int i = counter; i < len; i++) {
-//            feedback[counter2++] = txsig[i];
-//        }
+        short[] feedback = new short[fbackLen];
+        for (int i = 0; i < feedback.length; i++) {
+            feedback[i] = txsig[counter++];
+        }
 
-//        double[] spec_fback = Utils.fftnative_short(feedback, feedback.length);
-//        double[] spec_fback_db = Utils.mag2db(spec_fback);
+        double[] spec_fback = Utils.fftnative_short(feedback, feedback.length);
+        double[] spec_fback_db = Utils.mag2db(spec_fback);
 
         FileOperations.writetofile(MainActivity.av, freqs,
                 Utils.genName(Constants.SignalType.FreqEsts, m_attempt) + ".txt");
@@ -265,8 +264,8 @@ public class FeedbackSignal {
             @Override
             public void run() {
                 if (Constants.Ns==960||Constants.Ns==1920||Constants.Ns==4800) {
-//                    Display.plotSpectrum(Constants.gview3, spec_fback_db, true, MainActivity.av.getResources().getColor(R.color.purple_500),
-//                            "Tx feedback " + finalFbegin + "," + finalFend);
+                    Display.plotSpectrum(Constants.gview3, spec_fback_db, true, MainActivity.av.getResources().getColor(R.color.purple_500),
+                            "Tx feedback " + finalFbegin + "," + finalFend);
                     Display.plotVerticalLine(Constants.gview3, Constants.f_seq.get(Constants.nbin1_chanest - 2));
                     Display.plotVerticalLine(Constants.gview3, Constants.f_seq.get(Constants.nbin2_chanest + 2));
                 }
