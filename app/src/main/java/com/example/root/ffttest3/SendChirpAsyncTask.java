@@ -266,7 +266,7 @@ public class SendChirpAsyncTask extends AsyncTask<Void, Void, Void> {
                         Thread.sleep(5000);
                     }
                     else if (Constants.Ns==4800) {
-                        Thread.sleep(7000);
+                        Thread.sleep(8000);
                     }
                     else if (Constants.Ns==9600) {
                         Thread.sleep(3000);

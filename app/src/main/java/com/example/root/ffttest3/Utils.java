@@ -736,7 +736,7 @@ public class Utils {
         ArrayList<Double> idxHistory = new ArrayList<>();
         int synclag = 200;
         double[] sounding_signal = new double[]{};
-        sounding_signal=new double[(MAX_WINDOWS*Constants.RecorderStepSize)];
+        sounding_signal=new double[((MAX_WINDOWS+1)*Constants.RecorderStepSize)];
         Log.e("len","sig length "+sounding_signal.length+","+sigType.toString());
         boolean valid_signal = false;
 //        boolean getOneMoreFlag = false;
