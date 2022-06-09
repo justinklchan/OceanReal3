@@ -38,6 +38,9 @@ public class Constants {
         Start,
         FreqEsts,
         AXcorr,
+        RxSyms,
+        RxSymIndex,
+        SoundingSegment,
         ANaiser,
         ASymCheckSNR,
         ASymCheckFreq,
@@ -457,7 +460,7 @@ public class Constants {
     static int preambleEndFreq;
     static int chirpPreambleTime = 100; // milliseconds
     static int preambleTime = 160; // milliseconds
-    static int fbackTime = 200; // milliseconds
+    static int fbackTime = 500; // milliseconds
     static int fbackinc;
     static boolean DecodeData = false;
     static boolean SEND_DATA = true;

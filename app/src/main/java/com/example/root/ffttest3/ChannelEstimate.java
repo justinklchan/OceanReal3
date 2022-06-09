@@ -178,7 +178,11 @@ public class ChannelEstimate {
         rx_symbols = Utils.div(rx_symbols,30000);
 
         FileOperations.writetofile(MainActivity.av, Utils.trim(Arrays.toString(rx_symbols)),
-                Utils.genName(Constants.SignalType.SNRs, m_attempt) + ".txt");
+                Utils.genName(Constants.SignalType.RxSyms, m_attempt) + ".txt");
+        FileOperations.writetofile(MainActivity.av, rx_sym_start+"",
+                Utils.genName(Constants.SignalType.RxSymIndex, m_attempt) + ".txt");
+        FileOperations.writetofile(MainActivity.av, rec,
+                Utils.genName(Constants.SignalType.SoundingSegment, m_attempt) + ".txt");
 
 //        double[] spec_symbol = Utils.fftnative_double(rx_symbols, rx_symbols.length);
 //        double[] spec_symbol_db = Utils.mag2db(Utils.fftnative_double(rx_symbols, rx_symbols.length));
@@ -280,8 +284,7 @@ public class ChannelEstimate {
 //                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn40_syms, 0, 5);
                 }
                 else if (Constants.subcarrier_number_default == 60) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn60_syms, 1, Constants.chanest_symreps-1);
-//                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn60_syms, 0,5);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn60_syms, 1, Constants.chanest_symreps);
                 }
                 else if (Constants.subcarrier_number_default == 120) {
                     snrs = SNR_freq.calculate_snr(spec_est, Constants.pn120_syms, 1, Constants.chanest_symreps);

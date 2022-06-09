@@ -684,13 +684,13 @@ public class Utils {
                 MAX_WINDOWS = 2;
             }
             else if (Constants.Ns==4800) {
-                MAX_WINDOWS=2;
+                MAX_WINDOWS=3;
             }
             else if (Constants.Ns==9600) {
                 MAX_WINDOWS=3;
             }
             timeout = 30;
-            len = ChirpSamples+Constants.ChirpGap+(Constants.Ns*Constants.chanest_symreps);
+            len = ChirpSamples+Constants.ChirpGap+((Constants.Ns+Constants.Cp)*Constants.chanest_symreps);
         }
         else if (sigType.equals(Constants.SignalType.Feedback)) {
             MAX_WINDOWS = 2;
@@ -773,14 +773,15 @@ public class Utils {
                         idxHistory.add(xcorr_out[1]);
 
                         if (xcorr_out[0] != -1) {
-                            if (xcorr_out[1] + len + synclag > Constants.RecorderStepSize*MAX_WINDOWS) {
+                            Log.e("copy",(xcorr_out[1]+len+synclag) + "," + Constants.RecorderStepSize*MAX_WINDOWS);
+                            if (xcorr_out[1] + len + synclag > Constants.RecorderStepSize*2) {
                                 Log.e("copy","one more flag "+xcorr_out[1]+","+(xcorr_out[1] + len + synclag));
 
                                 numWindowsLeft = MAX_WINDOWS-1;
 
 //                                Log.e("copy","copying "+out[t_idx]+","+out[t_idx+1]+","+out[t_idx+2]+","+out[t_idx+3]+","+out[t_idx+4]);
-                                for (int j = (int)xcorr_out[1]; j < filt.length; j++) {
-                                    sounding_signal[sounding_signal_counter++]=filt[j];
+                                for (int j = (int)xcorr_out[1]; j < out.length; j++) {
+                                    sounding_signal[sounding_signal_counter++]=out[j];
                                 }
 
                                 Log.e("copy", "copy ("+xcorr_out[1]+","+filt.length+") to ("+sounding_signal_counter+")");
@@ -788,8 +789,8 @@ public class Utils {
                                 Log.e("copy","good! "+filt.length+","+xcorr_out[1]+","+filt.length);
 //                                Utils.log("good");
                                 int counter=0;
-                                for (int k = (int) xcorr_out[1]; k < filt.length; k++) {
-                                    sounding_signal[counter++] = filt[k];
+                                for (int k = (int) xcorr_out[1]; k < out.length; k++) {
+                                    sounding_signal[counter++] = out[k];
                                 }
 //                                sounding_signal = Utils.segment(filt, (int) xcorr_out[1], filt.length - 1);
                                 valid_signal = true;
@@ -801,11 +802,11 @@ public class Utils {
 //                        Utils.log("another window");
                         Log.e("copy","another window from "+sounding_signal_counter+","+(sounding_signal_counter+rec.length)+","+sounding_signal.length);
 
-                        double[] filt2 = Utils.copyArray2(rec);
-                        filt2 = Utils.filter(filt2);
+//                        double[] filt2 = Utils.copyArray2(rec);
+//                        filt2 = Utils.filter(filt2);
 
-                        for (int j = 0; j < filt2.length; j++) {
-                            sounding_signal[sounding_signal_counter++]=filt2[j];
+                        for (int j = 0; j < rec.length; j++) {
+                            sounding_signal[sounding_signal_counter++]=rec[j];
                         }
                         numWindowsLeft -= 1;
                         if (numWindowsLeft==0){
@@ -826,7 +827,7 @@ public class Utils {
         Constants._OfflineRecorder.halt2();
 
         if (valid_signal) {
-            return sounding_signal;
+            return Utils.filter(sounding_signal);
         }
         return null;
     }

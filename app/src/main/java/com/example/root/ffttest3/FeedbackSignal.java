@@ -305,6 +305,8 @@ public class FeedbackSignal {
             Utils.log("no frequencies selected");
         }
 
+        final int f1f = freqs[0];
+        final int f2f = freqs[1];
         (MainActivity.av).runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -316,20 +318,12 @@ public class FeedbackSignal {
 
                 if (freqs.length==2) {
                     Display.plotSpectrum(Constants.gview2, feedback_spec_db, true, MainActivity.av.getResources().getColor(R.color.purple_500),
-                            "Rx Feedback " + freqs[0] + "," + freqs[freqs.length - 1]);
+                            "Rx Feedback " + f1f + "," + f2f);
                 }
                 else {
                     Display.plotSpectrum(Constants.gview2, feedback_spec_db, true, MainActivity.av.getResources().getColor(R.color.purple_500),
                             "Rx Feedback");
                 }
-//                if (freqs.length>0) {
-//                    Display.plotSpectrum(Constants.gview2, noise_db, false, MainActivity.av.getResources().getColor(R.color.black),
-//                            "Rx Feedback " + freqs[0] + "," + freqs[freqs.length - 1]);
-//                }
-//                else {
-//                    Display.plotSpectrum(Constants.gview2, noise_db, false, MainActivity.av.getResources().getColor(R.color.black),
-//                            "Rx Feedback");
-//                }
 
                 Display.plotVerticalLine(Constants.gview2, Constants.f_seq.get(Constants.nbin1_default -2));
                 Display.plotVerticalLine(Constants.gview2, Constants.f_seq.get(Constants.nbin2_default +2));
