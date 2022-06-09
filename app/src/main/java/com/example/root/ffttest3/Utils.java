@@ -691,6 +691,7 @@ public class Utils {
             }
             timeout = 30;
             len = ChirpSamples+Constants.ChirpGap+((Constants.Ns+Constants.Cp)*Constants.chanest_symreps);
+//            len = ChirpSamples+Constants.ChirpGap+((Constants.Ns)*Constants.chanest_symreps);
         }
         else if (sigType.equals(Constants.SignalType.Feedback)) {
             MAX_WINDOWS = 2;
@@ -703,7 +704,7 @@ public class Utils {
             else if (Constants.Ns==9600) {
                 timeout=7;
             }
-            len = ChirpSamples+Constants.Ns+ChirpSamples;
+            len = (int)(ChirpSamples+Constants.ChirpGap+((fbackTime/1000.0)*Constants.fs));
         }
         else if (sigType.equals(Constants.SignalType.DataRx)) {
             if (Constants.exp_num==1 || Constants.exp_num == 2) {
@@ -734,7 +735,7 @@ public class Utils {
         ArrayList<Double[]> sampleHistory = new ArrayList<>();
         ArrayList<Double> valueHistory = new ArrayList<>();
         ArrayList<Double> idxHistory = new ArrayList<>();
-        int synclag = 200;
+        int synclag = 12000;
         double[] sounding_signal = new double[]{};
         sounding_signal=new double[((MAX_WINDOWS+1)*Constants.RecorderStepSize)];
         Log.e("len","sig length "+sounding_signal.length+","+sigType.toString());
@@ -774,7 +775,8 @@ public class Utils {
 
                         if (xcorr_out[0] != -1) {
                             Log.e("copy",(xcorr_out[1]+len+synclag) + "," + Constants.RecorderStepSize*MAX_WINDOWS);
-                            if (xcorr_out[1] + len + synclag > Constants.RecorderStepSize*2) {
+                            if (xcorr_out[1] + len + synclag > out.length) {
+//                            if (xcorr_out[1] + len + synclag > Constants.RecorderStepSize*MAX_WINDOWS) {
                                 Log.e("copy","one more flag "+xcorr_out[1]+","+(xcorr_out[1] + len + synclag));
 
                                 numWindowsLeft = MAX_WINDOWS-1;
