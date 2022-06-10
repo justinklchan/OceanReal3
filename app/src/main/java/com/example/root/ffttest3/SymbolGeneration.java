@@ -274,16 +274,12 @@ public class SymbolGeneration {
         }
 
         short[] symbol = mod(bound1, bound2, valid_carrier, bits, subnum, sigType);
-//        short[] flipped_symbol=null;
-//        if(Constants.FLIP_SYMBOL) {flipped_symbol = mod(bound1, bound2, valid_carrier, Utils.flip(bits), subnum);}
+
+        short[] flipped_symbol=null;
+        flipped_symbol = mod(bound1, bound2, valid_carrier, Utils.flip(bits), subnum, sigType);
 
         int datacounter=0;
         short[] out = null;
-//        if (sigType.equals(Constants.SignalType.Sounding)) {
-//            int long_cp = 0;
-//            out = new short[symbol.length*symreps + long_cp + Constants.Gi];
-//        }
-//        else
 
         if (sigType.equals(Constants.SignalType.DataAdapt)||
             sigType.equals(Constants.SignalType.DataFull_1000_4000)||
@@ -308,19 +304,34 @@ public class SymbolGeneration {
         }
         else if (sigType.equals(Constants.SignalType.Sounding)) {
             int long_cp = Constants.Cp;
-            short[] cp = new short[long_cp];
+
+            short[] cp_normal = new short[long_cp];
             for (int i = 0; i < long_cp; i++) {
-                cp[i] = symbol[(symbol.length - long_cp - 1) + i];
+                cp_normal[i] = symbol[(symbol.length - long_cp - 1) + i];
+            }
+            short[] cp_flipped = new short[long_cp];
+            for (int i = 0; i < long_cp; i++) {
+                cp_flipped[i] = flipped_symbol[(symbol.length - long_cp - 1) + i];
             }
 
             out = new short[(symbol.length+long_cp)*symreps + Constants.Gi];
 
             for (int i = 0; i < symreps; i++) {
-                for (int j = 0; j < cp.length; j++) {
-                    out[datacounter++] = cp[j];
+                if (Utils.in(Constants.normal_syms,i)) {
+                    for (int j = 0; j < cp_normal.length; j++) {
+                        out[datacounter++] = cp_normal[j];
+                    }
+                    for (int j = 0; j < symbol.length; j++) {
+                        out[datacounter++] = symbol[j];
+                    }
                 }
-                for (int j = 0; j < symbol.length; j++) {
-                    out[datacounter++] = symbol[j];
+                else {
+                    for (int j = 0; j < cp_normal.length; j++) {
+                        out[datacounter++] = cp_flipped[j];
+                    }
+                    for (int j = 0; j < symbol.length; j++) {
+                        out[datacounter++] = flipped_symbol[j];
+                    }
                 }
             }
         }

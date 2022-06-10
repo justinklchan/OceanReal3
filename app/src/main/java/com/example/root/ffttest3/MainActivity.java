@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Constants.sw6.setVisibility(View.GONE);
         Constants.sw7.setVisibility(View.GONE);
         Constants.sw8.setVisibility(View.GONE);
-        Constants.sw9.setVisibility(View.GONE);
+//        Constants.sw9.setVisibility(View.GONE);
 
         Constants.et2.setVisibility(View.GONE);
 //        Constants.et4.setVisibility(View.GONE);
@@ -472,6 +472,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(av).edit();
                 editor.putBoolean("flip_symbol", isChecked);
                 Constants.FLIP_SYMBOL  = isChecked;
+                if (isChecked) {
+                    Constants.normal_syms = new int[]{1,3,5,7};
+                }
+                else {
+                    Constants.normal_syms = new int[]{0,1,2,3,4,5,6,7};
+                }
                 editor.commit();
             }
         });

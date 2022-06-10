@@ -1,8 +1,23 @@
 package com.example.root.ffttest3;
 
 public class SNR_freq {
-    public static double[] calculate_snr(double[][][] rx_spectrum, double[][] gt_symbol, int sym_start, int sym_end) {
-        int bin_num = gt_symbol.length;
+    public static double[][] flip_gt(double[][] gt_symbol) {
+        double[][] out = new double[gt_symbol.length][gt_symbol[0].length];
+        for (int i = 0; i < gt_symbol.length; i++) {
+            for (int j = 0; j < gt_symbol[0].length; j++) {
+                if (gt_symbol[i][j] == 1) {
+                    out[i][j] = -1;
+                }
+                else {
+                    out[i][j] = 1;
+                }
+            }
+        }
+        return out;
+    }
+
+    public static double[] calculate_snr(double[][][] rx_spectrum, double[][] gt_symbol, int sym_start, int sym_end, int bin_num) {
+        double[][] flipped_gt_symbol = flip_gt(gt_symbol);
         double[] SNR_list = new double[bin_num];
         int sym_count = sym_end-sym_start;
 
@@ -11,15 +26,27 @@ public class SNR_freq {
             H[0] = 0;
             H[1] = 0;
             for(int j = sym_start; j < sym_end; ++j) {
-                H[0] += rx_spectrum[0][i][j]*gt_symbol[i][0];
-                H[1] += rx_spectrum[1][i][j]*gt_symbol[i][0];
+                if (Utils.in(Constants.normal_syms,j)) {
+                    H[0] += rx_spectrum[0][i][j] * gt_symbol[i][0];
+                    H[1] += rx_spectrum[1][i][j] * gt_symbol[i][0];
+                }
+                else {
+                    H[0] += rx_spectrum[0][i][j] * flipped_gt_symbol[i][0];
+                    H[1] += rx_spectrum[1][i][j] * flipped_gt_symbol[i][0];
+                }
             }
             H[0] = H[0]/sym_count;
             H[1] = H[1]/sym_count;
             double noise_level = 0;
             for(int j = sym_start; j < sym_end; ++j) {
-                noise_level += Math.pow(rx_spectrum[0][i][j]*gt_symbol[i][0] - H[0],2 )+
-                               Math.pow(H[1] - rx_spectrum[1][i][j]*gt_symbol[i][0], 2);
+                if (Utils.in(Constants.normal_syms,j)) {
+                    noise_level += Math.pow(rx_spectrum[0][i][j] * gt_symbol[i][0] - H[0], 2) +
+                            Math.pow(H[1] - rx_spectrum[1][i][j] * gt_symbol[i][0], 2);
+                }
+                else {
+                    noise_level += Math.pow(rx_spectrum[0][i][j] * flipped_gt_symbol[i][0] - H[0], 2) +
+                            Math.pow(H[1] - rx_spectrum[1][i][j] * flipped_gt_symbol[i][0], 2);
+                }
             }
             noise_level = noise_level/sym_count;
             double signal_level = Math.pow(H[0], 2) + Math.pow(H[1], 2);

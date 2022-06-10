@@ -276,24 +276,24 @@ public class ChannelEstimate {
 //            else {
                 t1 = System.currentTimeMillis();
                 if (Constants.subcarrier_number_default == 20) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 1, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 1, Constants.chanest_symreps, 10);
 //                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn20_syms, 0, 5);
                 }
                 else if (Constants.subcarrier_number_default == 40) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn40_syms, 1, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn40_syms, 1, Constants.chanest_symreps, 20);
 //                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn40_syms, 0, 5);
                 }
                 else if (Constants.subcarrier_number_default == 60) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn60_syms, 1, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn60_syms, 1, Constants.chanest_symreps, 30);
                 }
                 else if (Constants.subcarrier_number_default == 120) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn120_syms, 1, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn120_syms, 1, Constants.chanest_symreps, 60);
                 }
                 else if (Constants.subcarrier_number_default == 300) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn300_syms, 1, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn300_syms, 1, Constants.chanest_symreps, 150);
                 }
                 else if (Constants.subcarrier_number_default == 600) {
-                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn600_syms, 1, Constants.chanest_symreps);
+                    snrs = SNR_freq.calculate_snr(spec_est, Constants.pn600_syms, 1, Constants.chanest_symreps, 300);
                 }
                 Log.e("timer2",(System.currentTimeMillis()-t1)+"");
 //            }

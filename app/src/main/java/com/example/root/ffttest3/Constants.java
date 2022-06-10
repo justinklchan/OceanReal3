@@ -455,6 +455,7 @@ public class Constants {
     {1,1,1,1,1},{1,1,1,1,1},{-1,-1,-1,-1,-1},{1,1,1,1,1},{-1,-1,-1,-1,-1},
     {-1,-1,-1,-1,-1},{-1,-1,-1,-1,-1},{1,1,1,1,1},{1,1,1,1,1},{1,1,1,1,1}};
 
+    static int[] normal_syms = new int[]{1,3,5,7};
     static boolean feedbackPreamble=false;
     static int preambleStartFreq;
     static int preambleEndFreq;
@@ -474,7 +475,7 @@ public class Constants {
     static short[] data23;
     static boolean NAISER = true;
     static int naiserVersion = 2;
-    static boolean DATA_NAISER = true;
+    static boolean DATA_NAISER = false;
     static boolean CHECK_SYM = false;
     static boolean onebin = false;
 
@@ -616,6 +617,12 @@ public class Constants {
 
         Constants.FLIP_SYMBOL=prefs.getBoolean("flip_symbol", Constants.FLIP_SYMBOL);
         sw9.setChecked(Constants.FLIP_SYMBOL);
+        if (FLIP_SYMBOL) {
+            Constants.normal_syms = new int[]{1,3,5,7};
+        }
+        else {
+            Constants.normal_syms = new int[]{0,1,2,3,4,5,6,7};
+        }
 
         Constants.NAISER=prefs.getBoolean("naiser", Constants.NAISER);
         sw10.setChecked(Constants.NAISER);

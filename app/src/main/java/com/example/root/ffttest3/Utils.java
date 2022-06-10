@@ -17,6 +17,15 @@ public class Utils {
         System.loadLibrary("native-lib");
     }
 
+    public static boolean in(int[] syms, int i) {
+        for (Integer j : syms) {
+            if (i==j) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void log(String s) {
         Log.e(Constants.LOG,s);
         (MainActivity.av).runOnUiThread(new Runnable() {

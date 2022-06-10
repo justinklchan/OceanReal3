@@ -452,10 +452,9 @@
         android:id="@+id/switch9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Flip"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/graphProd"
-        app:layout_constraintStart_toEndOf="@+id/switch1" />
+        android:text="Flip syms"
+        app:layout_constraintStart_toStartOf="@+id/switch13"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <EditText
         android:id="@+id/editTextNumber14"
@@ -552,6 +551,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Naiser"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
 
@@ -560,6 +560,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Check syms"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch10" />
 
@@ -568,6 +569,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Data naiser"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch11" />
 
@@ -629,6 +631,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="onebin"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
